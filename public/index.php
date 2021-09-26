@@ -11,12 +11,9 @@ require __DIR__ . '/../vendor/autoload.php';
 
 require __DIR__ . '/../src/PhpRenderer.php';
 
-
 $app = AppFactory::create();
 
-
 $app->get('/',function ($request, $response, array $args){
-
     $home = new HomeController();
     $renderer = new PhpRenderer('../src/Vue');
     //$response->getBody()->write($home->home());
