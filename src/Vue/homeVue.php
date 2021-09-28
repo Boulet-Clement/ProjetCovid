@@ -5,6 +5,7 @@
         </title>
     </head>
     <body>
-        <p>Réussie</p>
+        <p>Réussie</p> <?php 
+        var_dump($_SESSION['Vue']->getTab()); ?>
     </body>
 </html>

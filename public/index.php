@@ -13,10 +13,6 @@ require __DIR__ . '/../src/PhpRenderer.php';
 
 $app = AppFactory::create();
 
-$app->get('/',function ($request, $response, array $args){
-    $home = new HomeController();
-    $renderer = new PhpRenderer('../src/Vue');
-    //$response->getBody()->write($home->home());
-    return $renderer->render($response,'home.html.twig', $args);
-});
+require __DIR__ . '/../config/routes.php';
+
 $app->run();
