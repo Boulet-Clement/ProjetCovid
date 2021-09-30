@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '25a397fc6aae447780deabcfec839711b69218dd',
+    'reference' => 'f2bc7c5341d41880ddd63e99876682574212cdbc',
     'name' => '__root__',
   ),
   'versions' => 
@@ -42,7 +42,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '25a397fc6aae447780deabcfec839711b69218dd',
+      'reference' => 'f2bc7c5341d41880ddd63e99876682574212cdbc',
     ),
     'composer/package-versions-deprecated' => 
     array (
@@ -170,6 +170,15 @@ private static $installed = array (
       ),
       'reference' => '9d94dc0154230ac39e5bf89398b324a86f63f765',
     ),
+    'graham-campbell/result-type' => 
+    array (
+      'pretty_version' => 'v1.0.2',
+      'version' => '1.0.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '84afea85c6841deeea872f36249a206e878a5de0',
+    ),
     'nikic/fast-route' => 
     array (
       'pretty_version' => 'v1.3.0',
@@ -185,6 +194,60 @@ private static $installed = array (
       array (
         0 => '1.11.99',
       ),
+    ),
+    'opis/closure' => 
+    array (
+      'pretty_version' => '3.6.2',
+      'version' => '3.6.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '06e2ebd25f2869e54a306dda991f7db58066f7f6',
+    ),
+    'php-di/invoker' => 
+    array (
+      'pretty_version' => '2.0.0',
+      'version' => '2.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '540c27c86f663e20fe39a24cd72fa76cdb21d41a',
+    ),
+    'php-di/php-di' => 
+    array (
+      'pretty_version' => '6.3.5',
+      'version' => '6.3.5.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'b8126d066ce144765300ee0ab040c1ed6c9ef588',
+    ),
+    'php-di/phpdoc-reader' => 
+    array (
+      'pretty_version' => '2.2.1',
+      'version' => '2.2.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '66daff34cbd2627740ffec9469ffbac9f8c8185c',
+    ),
+    'php-di/slim-bridge' => 
+    array (
+      'pretty_version' => '3.1.1',
+      'version' => '3.1.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'ad74ba03a3b97c717d58ac04b88671bafe4549c7',
+    ),
+    'phpoption/phpoption' => 
+    array (
+      'pretty_version' => '1.8.0',
+      'version' => '1.8.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '5455cb38aed4523f99977c4a12ef19da4bfe2a28',
     ),
     'psr/cache' => 
     array (
@@ -204,12 +267,19 @@ private static $installed = array (
     ),
     'psr/container' => 
     array (
-      'pretty_version' => '2.0.1',
-      'version' => '2.0.1.0',
+      'pretty_version' => '1.1.1',
+      'version' => '1.1.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '2ae37329ee82f91efadc282cc2d527fd6065a5ef',
+      'reference' => '8622567409010282b7aeebe4bb841fe98b58dcaf',
+    ),
+    'psr/container-implementation' => 
+    array (
+      'provided' => 
+      array (
+        0 => '^1.0',
+      ),
     ),
     'psr/http-factory' => 
     array (
@@ -461,6 +531,15 @@ private static $installed = array (
       array (
       ),
       'reference' => 'a27fa056df8a6384316288ca8b0fa3a35fdeb569',
+    ),
+    'vlucas/phpdotenv' => 
+    array (
+      'pretty_version' => 'v5.3.0',
+      'version' => '5.3.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'b3eac5c7ac896e52deab4a99068e3f4ab12d9e56',
     ),
   ),
 );
