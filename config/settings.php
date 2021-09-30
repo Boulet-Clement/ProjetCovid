@@ -1,6 +1,8 @@
 <?php
+declare(strict_types=1);
 // https://www.loiclaurent.com/posts/developpement-web/utiliser-doctrine-dans-le-framework-php-slim-4/
 use DI\ContainerBuilder; 
+
 
 return function (ContainerBuilder $containerBuilder) {
 // Global Settings Object
