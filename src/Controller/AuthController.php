@@ -1,25 +1,30 @@
 <?php
 
 namespace App\Controller;
+/*
 use App\Model\HomeClass;
-require __DIR__ . '/../../src/Model/homeClass.php';
+require __DIR__ . '/../../src/Model/homeClass.php';*/
 
-class HomeController
+class AuthController
 {
-    private $view;
 
     public function __construct()
     {
         return;
     }
     
-    public function home()
+    public function signUp()
     {
-      $vue = new HomeClass();
-      $vue->setInSession();
+      //$vue = new HomeClass();
       // your code here
       // use $this->view to render the HTML
       // ...
     return "hello";
+    }
+    public function signIn(){
+
+    }
+    public function signOut(){
+        
     }
 }

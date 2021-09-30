@@ -14,7 +14,7 @@ class HomeClass
     /* Peut être créer un constructeur par parametre exemple : args  */
     public function __construct(){
         /* Mettre les variables a jour comme on les veut*/
-        $this->setInSession();
+        //$this->setInSession();
     }
 }
 ?>
