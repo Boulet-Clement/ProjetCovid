@@ -3,6 +3,9 @@ use App\Controller\HomeController;
 use App\Controller\AuthController;
 use Slim\Views\PhpRenderer;
 
+require __DIR__ . '/../src/Controller/HomeController.php';
+require __DIR__ . '/../src/Controller/AuthController.php';
+
 $app->get('/',function ($request, $response, array $args){
     $home = new HomeController();
     $renderer = new PhpRenderer('../src/Vue');
@@ -18,7 +21,9 @@ $app->get('/signUp',function ($request, $response, array $args){
 });
 $app->post('/signUpForm',function ($request, $response, array $args){
     $data = $request->getParsedBody();
-    $html = var_export($data, true);
-    $response->getBody()->write($html);
+    $auth = new AuthController();
+    $retour = $auth->signUp($data);
+
+    $response->getBody()->write($retour);
     return $response;
 });

@@ -13,13 +13,10 @@ class AuthController
         return;
     }
     
-    public function signUp()
+    public function signUp(array $data)
     {
-      //$vue = new HomeClass();
-      // your code here
-      // use $this->view to render the HTML
-      // ...
-    return "hello";
+      $login = $data['login'];
+      return $login;
     }
     public function signIn(){
 
