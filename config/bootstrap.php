@@ -22,8 +22,36 @@ $settings = require __DIR__ . '/../config/settings.php';
 $settings($containerBuilder);
 
 // Set up dependencies
-$dependencies = require __DIR__.'/../config/dependencies.php';
-$dependencies($containerBuilder);
+function test(ContainerBuilder $containerBuilder) {
+    $containerBuilder->addDefinitions(
+    [
+        EntityManager::class => function (ContainerInterface $container): EntityManager {
+            $settings = $container->get('settings');
+
+            $config = Setup::createAnnotationMetadataConfiguration(
+                $settings['doctrine']['metadata_dirs'],
+                $settings['doctrine']['dev_mode']
+            );
+
+            $config->setMetadataDriverImpl(
+                new AnnotationDriver(
+                    new AnnotationReader,
+                    $settings['doctrine']['metadata_dirs']
+                )
+            );
+            $config->setMetadataCacheImpl(
+                new FilesystemCache(
+                    $settings['doctrine']['cache_dir']
+                )
+            );
+            return EntityManager::create(
+                $settings['doctrine']['connection'],
+                $config
+            );
+        },
+    ]);
+};     
+test($containerBuilder);
 
 // Build PHP-DI Container instance
 $container = $containerBuilder->build();
