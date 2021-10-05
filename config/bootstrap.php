@@ -18,12 +18,13 @@ $app = \DI\Bridge\Slim\Bridge::create();
 $containerBuilder = new ContainerBuilder();
 
 // Set up settings
-$settings = require __DIR__ . '/../config/settings.php';
+$settings = require __DIR__ . './settings.php';
 $settings($containerBuilder);
 
 // Set up dependencies
-$dependencies = require __DIR__ . '/../config/dependencies.php';
+$dependencies = require __DIR__ . './dependencies.php';
 $dependencies($containerBuilder);
+
 
 // Build PHP-DI Container instance
 $container = $containerBuilder->build();

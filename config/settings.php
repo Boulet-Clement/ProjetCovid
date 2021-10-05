@@ -23,7 +23,7 @@ $containerBuilder->addDefinitions([
             ]
         ]
     ]);
-}
+};
 /*
 define('APP_ROOT', __DIR__);
 
@@ -89,4 +89,3 @@ $containerBuilder->addDefitions([
         ]
     ]
 ]);*/
-?>
