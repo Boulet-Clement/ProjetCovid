@@ -1,5 +1,4 @@
 <?php
-//https://stackoverflow.com/questions/59639893/how-to-use-doctrine-with-slim-framework-4
 
 use Slim\Factory\AppFactory;
 use DI\Container;
@@ -7,12 +6,14 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use DI\ContainerBuilder;
+use Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper;
+use Symfony\Component\Console\Helper\HelperSet;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
-require __DIR__ . '/../src/PhpRenderer.php';
-$app = \DI\Bridge\Slim\Bridge::create();
+require __DIR__ . '/config/bootstrap.php';
 
 // Instantiate PHP-DI ContainerBuilder
 $containerBuilder = new ContainerBuilder();
@@ -30,11 +31,11 @@ $dependencies($containerBuilder);
 $container = $containerBuilder->build();
 
 // Instantiate the app
-AppFactory::setContainer($container);
-$app = AppFactory::create();
+
+
+return ConsoleRunner::createHelperSet($container[EntityManager::class]);
+
+
 
 //$app = \DI\Bridge\Slim\Bridge::create($container);
 
-require __DIR__ . '/../config/routes.php';
-
-$app->run();
