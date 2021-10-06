@@ -1,4 +1,4 @@
-<?
+<?php
 //dependencies.php
 declare(strict_types=1);
 use DI\ContainerBuilder;
@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 
-function test (ContainerBuilder $containerBuilder) {
+return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions(
     [
         EntityManager::class => function (ContainerInterface $container): EntityManager {
@@ -40,6 +40,6 @@ function test (ContainerBuilder $containerBuilder) {
             );
         },
     ]);
-};       
+};
 
 ?>

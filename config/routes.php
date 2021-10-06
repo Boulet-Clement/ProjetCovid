@@ -9,7 +9,6 @@ require __DIR__ . '/../src/Controller/AuthController.php';
 $app->get('/',function ($request, $response, array $args){
     $home = new HomeController();
     $renderer = new PhpRenderer('../src/Vue');
-    $response->getBody()->write($home->home());
     return $renderer->render($response,'homeVue.php', $args);
 });
 

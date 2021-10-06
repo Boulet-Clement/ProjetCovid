@@ -10,16 +10,13 @@ class HomeController
 
     public function __construct()
     {
+        $_REQUEST['variable'] = "je viens du controller";
         return;
     }
-    
+
     public function home()
     {
-      $vue = new HomeClass();
-      $vue->setInSession();
-      // your code here
-      // use $this->view to render the HTML
-      // ...
-    return "hello";
+     
     }
+
 }
