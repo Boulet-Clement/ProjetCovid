@@ -18,6 +18,19 @@ $app->get('/signUp',function ($request, $response, array $args){
     //$response->getBody()->write($home->signUp());
     return $renderer->render($response,'signUpVue.php', $args);
 });
+
+$app->get('/auth',function ($request, $response, array $args){
+    $renderer = new PhpRenderer('../src/Vue');
+    return $renderer->render($response,'authVue.php', $args);
+});
+
+$app->post('/auth',function ($request, $response, array $args){
+    $auth = new AuthController();
+    $renderer = new PhpRenderer('../src/Vue');
+    $auth->signin();
+    return $renderer->render($response,'authVue.php', $args);
+});
+
 $app->post('/signUpForm',function ($request, $response, array $args){
     $data = $request->getParsedBody();
     $auth = new AuthController();
