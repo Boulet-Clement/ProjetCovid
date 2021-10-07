@@ -1,5 +1,4 @@
 <?php
-
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -21,25 +20,27 @@
 namespace Doctrine\ORM\Query\AST;
 
 /**
- * IndexBy ::= "INDEX" "BY" SingleValuedPathExpression
+ * IndexBy ::= "INDEX" "BY" SimpleStateFieldPathExpression
  *
  * @link    www.doctrine-project.org
+ * @since   2.0
+ * @author  Guilherme Blanco <guilhermeblanco@hotmail.com>
+ * @author  Jonathan Wage <jonwage@gmail.com>
+ * @author  Roman Borschel <roman@code-factory.org>
  */
 class IndexBy extends Node
 {
-    /** @var PathExpression */
-    public $singleValuedPathExpression = null;
-
     /**
-     * @deprecated
-     *
      * @var PathExpression
      */
     public $simpleStateFieldPathExpression = null;
 
-    public function __construct(PathExpression $singleValuedPathExpression)
+    /**
+     * @param PathExpression $simpleStateFieldPathExpression
+     */
+    public function __construct($simpleStateFieldPathExpression)
     {
-        $this->singleValuedPathExpression = $this->simpleStateFieldPathExpression = $singleValuedPathExpression;
+        $this->simpleStateFieldPathExpression = $simpleStateFieldPathExpression;
     }
 
     /**

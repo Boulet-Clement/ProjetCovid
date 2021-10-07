@@ -1,5 +1,4 @@
 <?php
-
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -23,26 +22,26 @@ namespace Doctrine\ORM\Tools\Console\Command;
 use Doctrine\ORM\Tools\Console\MetadataFilter;
 use Doctrine\ORM\Tools\DisconnectedClassMetadataFactory;
 use Doctrine\ORM\Tools\EntityGenerator;
-use InvalidArgumentException;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-use function file_exists;
-use function is_writable;
-use function realpath;
-use function sprintf;
-
 /**
  * Command to generate entity classes and method stubs from your mapping information.
  *
- * @deprecated 2.7 This class is being removed from the ORM and won't have any replacement
- *
  * @link    www.doctrine-project.org
+ * @since   2.0
+ * @author  Benjamin Eberlei <kontakt@beberlei.de>
+ * @author  Guilherme Blanco <guilhermeblanco@hotmail.com>
+ * @author  Jonathan Wage <jonwage@gmail.com>
+ * @author  Roman Borschel <roman@code-factory.org>
+ *
+ * @deprecated 2.7 This class is being removed from the ORM and won't have any replacement
  */
-class GenerateEntitiesCommand extends AbstractEntityManagerCommand
+class GenerateEntitiesCommand extends Command
 {
     /**
      * {@inheritdoc}
@@ -53,7 +52,6 @@ class GenerateEntitiesCommand extends AbstractEntityManagerCommand
              ->setAliases(['orm:generate:entities'])
              ->setDescription('Generate entity classes and method stubs from your mapping information')
              ->addArgument('dest-path', InputArgument::REQUIRED, 'The path to generate your entity classes.')
-             ->addOption('em', null, InputOption::VALUE_REQUIRED, 'Name of the entity manager to operate on')
              ->addOption('filter', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'A string pattern used to match entities that should be processed.')
              ->addOption('generate-annotations', null, InputOption::VALUE_OPTIONAL, 'Flag to define if generator should generate annotation metadata on entities.', false)
              ->addOption('generate-methods', null, InputOption::VALUE_OPTIONAL, 'Flag to define if generator should generate stub methods on entities.', true)
@@ -87,15 +85,13 @@ EOT
 
     /**
      * {@inheritdoc}
-     *
-     * @return int
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $ui = new SymfonyStyle($input, $output);
         $ui->warning('Command ' . $this->getName() . ' is deprecated and will be removed in Doctrine ORM 3.0.');
 
-        $em = $this->getEntityManager($input);
+        $em = $this->getHelper('em')->getEntityManager();
 
         $cmf = new DisconnectedClassMetadataFactory();
         $cmf->setEntityManager($em);
@@ -105,21 +101,20 @@ EOT
         // Process destination directory
         $destPath = realpath($input->getArgument('dest-path'));
 
-        if (! file_exists($destPath)) {
-            throw new InvalidArgumentException(
+        if ( ! file_exists($destPath)) {
+            throw new \InvalidArgumentException(
                 sprintf("Entities destination directory '<info>%s</info>' does not exist.", $input->getArgument('dest-path'))
             );
         }
 
-        if (! is_writable($destPath)) {
-            throw new InvalidArgumentException(
+        if ( ! is_writable($destPath)) {
+            throw new \InvalidArgumentException(
                 sprintf("Entities destination directory '<info>%s</info>' does not have write permissions.", $destPath)
             );
         }
 
         if (empty($metadatas)) {
             $ui->success('No Metadata Classes to process.');
-
             return 0;
         }
 
@@ -129,11 +124,10 @@ EOT
         $entityGenerator->setGenerateStubMethods($input->getOption('generate-methods'));
         $entityGenerator->setRegenerateEntityIfExists($input->getOption('regenerate-entities'));
         $entityGenerator->setUpdateEntityIfExists($input->getOption('update-entities'));
-        $entityGenerator->setNumSpaces((int) $input->getOption('num-spaces'));
-        $entityGenerator->setBackupExisting(! $input->getOption('no-backup'));
+        $entityGenerator->setNumSpaces($input->getOption('num-spaces'));
+        $entityGenerator->setBackupExisting(!$input->getOption('no-backup'));
 
-        $extend = $input->getOption('extend');
-        if ($extend !== null) {
+        if (($extend = $input->getOption('extend')) !== null) {
             $entityGenerator->setClassToExtend($extend);
         }
 

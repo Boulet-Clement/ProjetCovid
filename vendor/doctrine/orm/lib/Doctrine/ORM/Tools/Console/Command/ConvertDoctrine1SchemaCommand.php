@@ -1,5 +1,4 @@
 <?php
-
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -23,8 +22,6 @@ namespace Doctrine\ORM\Tools\Console\Command;
 use Doctrine\ORM\Tools\ConvertDoctrine1Schema;
 use Doctrine\ORM\Tools\EntityGenerator;
 use Doctrine\ORM\Tools\Export\ClassMetadataExporter;
-use Doctrine\ORM\Tools\Export\Driver\AnnotationExporter;
-use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,28 +29,28 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-use function array_merge;
-use function file_exists;
-use function is_readable;
-use function is_writable;
-use function realpath;
-use function sprintf;
-
-use const PHP_EOL;
-
 /**
  * Command to convert a Doctrine 1 schema to a Doctrine 2 mapping file.
  *
- * @deprecated 2.7 This class is being removed from the ORM and won't have any replacement
- *
  * @link    www.doctrine-project.org
+ * @since   2.0
+ * @author  Benjamin Eberlei <kontakt@beberlei.de>
+ * @author  Guilherme Blanco <guilhermeblanco@hotmail.com>
+ * @author  Jonathan Wage <jonwage@gmail.com>
+ * @author  Roman Borschel <roman@code-factory.org>
+ *
+ * @deprecated 2.7 This class is being removed from the ORM and won't have any replacement
  */
 class ConvertDoctrine1SchemaCommand extends Command
 {
-    /** @var EntityGenerator|null */
+    /**
+     * @var EntityGenerator|null
+     */
     private $entityGenerator = null;
 
-    /** @var ClassMetadataExporter|null */
+    /**
+     * @var ClassMetadataExporter|null
+     */
     private $metadataExporter = null;
 
     /**
@@ -61,7 +58,7 @@ class ConvertDoctrine1SchemaCommand extends Command
      */
     public function getEntityGenerator()
     {
-        if ($this->entityGenerator === null) {
+        if ($this->entityGenerator == null) {
             $this->entityGenerator = new EntityGenerator();
         }
 
@@ -69,6 +66,8 @@ class ConvertDoctrine1SchemaCommand extends Command
     }
 
     /**
+     * @param EntityGenerator $entityGenerator
+     *
      * @return void
      */
     public function setEntityGenerator(EntityGenerator $entityGenerator)
@@ -81,7 +80,7 @@ class ConvertDoctrine1SchemaCommand extends Command
      */
     public function getMetadataExporter()
     {
-        if ($this->metadataExporter === null) {
+        if ($this->metadataExporter == null) {
             $this->metadataExporter = new ClassMetadataExporter();
         }
 
@@ -89,6 +88,8 @@ class ConvertDoctrine1SchemaCommand extends Command
     }
 
     /**
+     * @param ClassMetadataExporter $metadataExporter
+     *
      * @return void
      */
     public function setMetadataExporter(ClassMetadataExporter $metadataExporter)
@@ -115,8 +116,6 @@ class ConvertDoctrine1SchemaCommand extends Command
 
     /**
      * {@inheritdoc}
-     *
-     * @return int
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -129,9 +128,9 @@ class ConvertDoctrine1SchemaCommand extends Command
         // Process destination directory
         $destPath = realpath($input->getArgument('dest-path'));
 
-        $toType    = $input->getArgument('to-type');
-        $extend    = $input->getOption('extend');
-        $numSpaces = (int) $input->getOption('num-spaces');
+        $toType = $input->getArgument('to-type');
+        $extend = $input->getOption('extend');
+        $numSpaces = $input->getOption('num-spaces');
 
         $this->convertDoctrine1Schema($fromPaths, $destPath, $toType, $numSpaces, $extend, $output);
 
@@ -139,50 +138,49 @@ class ConvertDoctrine1SchemaCommand extends Command
     }
 
     /**
-     * @param mixed[]     $fromPaths
-     * @param string      $destPath
-     * @param string      $toType
-     * @param int         $numSpaces
-     * @param string|null $extend
+     * @param array           $fromPaths
+     * @param string          $destPath
+     * @param string          $toType
+     * @param int             $numSpaces
+     * @param string|null     $extend
+     * @param OutputInterface $output
      *
-     * @return void
-     *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function convertDoctrine1Schema(array $fromPaths, $destPath, $toType, $numSpaces, $extend, OutputInterface $output)
     {
         foreach ($fromPaths as &$dirName) {
             $dirName = realpath($dirName);
 
-            if (! file_exists($dirName)) {
-                throw new InvalidArgumentException(
+            if ( ! file_exists($dirName)) {
+                throw new \InvalidArgumentException(
                     sprintf("Doctrine 1.X schema directory '<info>%s</info>' does not exist.", $dirName)
                 );
             }
 
-            if (! is_readable($dirName)) {
-                throw new InvalidArgumentException(
+            if ( ! is_readable($dirName)) {
+                throw new \InvalidArgumentException(
                     sprintf("Doctrine 1.X schema directory '<info>%s</info>' does not have read permissions.", $dirName)
                 );
             }
         }
 
-        if (! file_exists($destPath)) {
-            throw new InvalidArgumentException(
+        if ( ! file_exists($destPath)) {
+            throw new \InvalidArgumentException(
                 sprintf("Doctrine 2.X mapping destination directory '<info>%s</info>' does not exist.", $destPath)
             );
         }
 
-        if (! is_writable($destPath)) {
-            throw new InvalidArgumentException(
+        if ( ! is_writable($destPath)) {
+            throw new \InvalidArgumentException(
                 sprintf("Doctrine 2.X mapping destination directory '<info>%s</info>' does not have write permissions.", $destPath)
             );
         }
 
-        $cme      = $this->getMetadataExporter();
+        $cme = $this->getMetadataExporter();
         $exporter = $cme->getExporter($toType, $destPath);
 
-        if ($exporter instanceof AnnotationExporter) {
+        if (strtolower($toType) === 'annotation') {
             $entityGenerator = $this->getEntityGenerator();
             $exporter->setEntityGenerator($entityGenerator);
 
@@ -194,7 +192,7 @@ class ConvertDoctrine1SchemaCommand extends Command
         }
 
         $converter = new ConvertDoctrine1Schema($fromPaths);
-        $metadata  = $converter->getMetadata();
+        $metadata = $converter->getMetadata();
 
         if ($metadata) {
             $output->writeln('');
@@ -207,9 +205,7 @@ class ConvertDoctrine1SchemaCommand extends Command
             $exporter->export();
 
             $output->writeln(PHP_EOL . sprintf(
-                'Converting Doctrine 1.X schema to "<info>%s</info>" mapping type in "<info>%s</info>"',
-                $toType,
-                $destPath
+                'Converting Doctrine 1.X schema to "<info>%s</info>" mapping type in "<info>%s</info>"', $toType, $destPath
             ));
         } else {
             $output->writeln('No Metadata Classes to process.');

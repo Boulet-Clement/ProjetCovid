@@ -1,5 +1,4 @@
 <?php
-
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -20,18 +19,26 @@
 
 namespace Doctrine\ORM\Decorator;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMapping;
-use Doctrine\Persistence\ObjectManagerDecorator;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Common\Persistence\ObjectManagerDecorator;
 
 /**
  * Base class for EntityManager decorators
+ *
+ * @since   2.4
+ * @author  Lars Strojny <lars@strojny.net
  */
 abstract class EntityManagerDecorator extends ObjectManagerDecorator implements EntityManagerInterface
 {
-    /** @var EntityManagerInterface */
+    /**
+     * @var EntityManagerInterface
+     */
     protected $wrapped;
 
+    /**
+     * @param EntityManagerInterface $wrapped
+     */
     public function __construct(EntityManagerInterface $wrapped)
     {
         $this->wrapped = $wrapped;
@@ -58,7 +65,7 @@ abstract class EntityManagerDecorator extends ObjectManagerDecorator implements 
      */
     public function beginTransaction()
     {
-        $this->wrapped->beginTransaction();
+        return $this->wrapped->beginTransaction();
     }
 
     /**
@@ -74,7 +81,7 @@ abstract class EntityManagerDecorator extends ObjectManagerDecorator implements 
      */
     public function commit()
     {
-        $this->wrapped->commit();
+        return $this->wrapped->commit();
     }
 
     /**
@@ -82,7 +89,7 @@ abstract class EntityManagerDecorator extends ObjectManagerDecorator implements 
      */
     public function rollback()
     {
-        $this->wrapped->rollback();
+        return $this->wrapped->rollback();
     }
 
     /**
@@ -146,7 +153,7 @@ abstract class EntityManagerDecorator extends ObjectManagerDecorator implements 
      */
     public function close()
     {
-        $this->wrapped->close();
+        return $this->wrapped->close();
     }
 
     /**
@@ -162,15 +169,15 @@ abstract class EntityManagerDecorator extends ObjectManagerDecorator implements 
      */
     public function lock($entity, $lockMode, $lockVersion = null)
     {
-        $this->wrapped->lock($entity, $lockMode, $lockVersion);
+        return $this->wrapped->lock($entity, $lockMode, $lockVersion);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function find($className, $id, $lockMode = null, $lockVersion = null)
+    public function find($entityName, $id, $lockMode = null, $lockVersion = null)
     {
-        return $this->wrapped->find($className, $id, $lockMode, $lockVersion);
+        return $this->wrapped->find($entityName, $id, $lockMode, $lockVersion);
     }
 
     /**
@@ -178,7 +185,7 @@ abstract class EntityManagerDecorator extends ObjectManagerDecorator implements 
      */
     public function flush($entity = null)
     {
-        $this->wrapped->flush($entity);
+        return $this->wrapped->flush($entity);
     }
 
     /**

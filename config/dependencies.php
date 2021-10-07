@@ -6,11 +6,10 @@ use DI\ContainerBuilder;
 use Psr\Container\ContainerInterface;
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Cache\FileSystemeCache;
+use Doctrine\Common\Cache\FilesystemCache;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\Setup;
-use Twig\Cache\FilesystemCache;
 
 return function (ContainerBuilder $containerBuilder){
     $containerBuilder->addDefinitions([

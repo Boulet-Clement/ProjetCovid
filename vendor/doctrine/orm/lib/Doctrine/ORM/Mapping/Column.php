@@ -1,5 +1,4 @@
 <?php
-
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -20,74 +19,58 @@
 
 namespace Doctrine\ORM\Mapping;
 
-use Attribute;
-use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
-
 /**
  * @Annotation
- * @NamedArgumentConstructor()
  * @Target({"PROPERTY","ANNOTATION"})
  */
-#[Attribute(Attribute::TARGET_PROPERTY)]
 final class Column implements Annotation
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     public $name;
 
-    /** @var mixed */
-    public $type;
+    /**
+     * @var mixed
+     */
+    public $type = 'string';
 
-    /** @var int */
+    /**
+     * @var integer
+     */
     public $length;
 
     /**
      * The precision for a decimal (exact numeric) column (Applies only for decimal column).
      *
-     * @var int
+     * @var integer
      */
     public $precision = 0;
 
     /**
      * The scale for a decimal (exact numeric) column (Applies only for decimal column).
      *
-     * @var int
+     * @var integer
      */
     public $scale = 0;
 
-    /** @var bool */
+    /**
+     * @var boolean
+     */
     public $unique = false;
 
-    /** @var bool */
+    /**
+     * @var boolean
+     */
     public $nullable = false;
 
-    /** @var array<string,mixed> */
+    /**
+     * @var array
+     */
     public $options = [];
 
-    /** @var string */
-    public $columnDefinition;
-
     /**
-     * @param array<string,mixed> $options
+     * @var string
      */
-    public function __construct(
-        ?string $name = null,
-        ?string $type = null,
-        ?int $length = null,
-        ?int $precision = null,
-        ?int $scale = null,
-        bool $unique = false,
-        bool $nullable = false,
-        array $options = [],
-        ?string $columnDefinition = null
-    ) {
-        $this->name             = $name;
-        $this->type             = $type;
-        $this->length           = $length;
-        $this->precision        = $precision;
-        $this->scale            = $scale;
-        $this->unique           = $unique;
-        $this->nullable         = $nullable;
-        $this->options          = $options;
-        $this->columnDefinition = $columnDefinition;
-    }
+    public $columnDefinition;
 }

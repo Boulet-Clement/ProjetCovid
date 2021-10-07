@@ -5,24 +5,19 @@ namespace Doctrine\Persistence\Event;
 use Doctrine\Common\EventArgs;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\Persistence\ObjectManager;
+use function class_exists;
 
 /**
  * Class that holds event arguments for a loadMetadata event.
  */
 class LoadClassMetadataEventArgs extends EventArgs
 {
-    /**
-     * @var ClassMetadata
-     * @psalm-var ClassMetadata<object>
-     */
+    /** @var ClassMetadata */
     private $classMetadata;
 
     /** @var ObjectManager */
     private $objectManager;
 
-    /**
-     * @psalm-param ClassMetadata<object> $classMetadata
-     */
     public function __construct(ClassMetadata $classMetadata, ObjectManager $objectManager)
     {
         $this->classMetadata = $classMetadata;
@@ -33,7 +28,6 @@ class LoadClassMetadataEventArgs extends EventArgs
      * Retrieves the associated ClassMetadata.
      *
      * @return ClassMetadata
-     * @psalm-return ClassMetadata<object>
      */
     public function getClassMetadata()
     {
@@ -50,3 +44,5 @@ class LoadClassMetadataEventArgs extends EventArgs
         return $this->objectManager;
     }
 }
+
+class_exists(\Doctrine\Common\Persistence\Event\LoadClassMetadataEventArgs::class);

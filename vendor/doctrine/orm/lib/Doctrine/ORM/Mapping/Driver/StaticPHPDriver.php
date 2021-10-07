@@ -1,5 +1,4 @@
 <?php
-
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -20,12 +19,12 @@
 
 namespace Doctrine\ORM\Mapping\Driver;
 
-use Doctrine\Persistence\Mapping\Driver\StaticPHPDriver as CommonStaticPHPDriver;
+use Doctrine\Common\Persistence\Mapping\Driver\StaticPHPDriver as CommonStaticPHPDriver;
 
 /**
  * {@inheritDoc}
  *
- * @deprecated this driver will be removed. Use Doctrine\Persistence\Mapping\Driver\StaticPHPDriver instead
+ * @deprecated this driver will be removed. Use Doctrine\Common\Persistence\Mapping\Driver\StaticPHPDriver instead
  */
 class StaticPHPDriver extends CommonStaticPHPDriver
 {

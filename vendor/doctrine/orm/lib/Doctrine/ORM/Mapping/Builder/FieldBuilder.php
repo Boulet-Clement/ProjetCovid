@@ -1,5 +1,4 @@
 <?php
-
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -20,35 +19,49 @@
 
 namespace Doctrine\ORM\Mapping\Builder;
 
-use function constant;
-
 /**
  * Field Builder
  *
+ * @license     http://www.opensource.org/licenses/mit-license.php MIT
  * @link        www.doctrine-project.com
+ * @since       2.2
+ * @author      Benjamin Eberlei <kontakt@beberlei.de>
  */
 class FieldBuilder
 {
-    /** @var ClassMetadataBuilder */
+    /**
+     * @var ClassMetadataBuilder
+     */
     private $builder;
 
-    /** @var mixed[] */
+    /**
+     * @var array
+     */
     private $mapping;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     private $version;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $generatedValue;
 
-    /** @var mixed[] */
+    /**
+     * @var array
+     */
     private $sequenceDef;
 
-    /** @var string|null */
+    /**
+     * @var string|null
+     */
     private $customIdGenerator;
 
     /**
-     * @param mixed[] $mapping
+     * @param ClassMetadataBuilder $builder
+     * @param array                $mapping
      */
     public function __construct(ClassMetadataBuilder $builder, array $mapping)
     {
@@ -61,7 +74,7 @@ class FieldBuilder
      *
      * @param int $length
      *
-     * @return static
+     * @return FieldBuilder
      */
     public function length($length)
     {
@@ -75,7 +88,7 @@ class FieldBuilder
      *
      * @param bool $flag
      *
-     * @return static
+     * @return FieldBuilder
      */
     public function nullable($flag = true)
     {
@@ -89,7 +102,7 @@ class FieldBuilder
      *
      * @param bool $flag
      *
-     * @return static
+     * @return FieldBuilder
      */
     public function unique($flag = true)
     {
@@ -103,7 +116,7 @@ class FieldBuilder
      *
      * @param string $name
      *
-     * @return static
+     * @return FieldBuilder
      */
     public function columnName($name)
     {
@@ -117,7 +130,7 @@ class FieldBuilder
      *
      * @param int $p
      *
-     * @return static
+     * @return FieldBuilder
      */
     public function precision($p)
     {
@@ -131,7 +144,7 @@ class FieldBuilder
      *
      * @param int $s
      *
-     * @return static
+     * @return FieldBuilder
      */
     public function scale($s)
     {
@@ -144,7 +157,6 @@ class FieldBuilder
      * Sets field as primary key.
      *
      * @deprecated Use makePrimaryKey() instead
-     *
      * @return FieldBuilder
      */
     public function isPrimaryKey()
@@ -155,7 +167,7 @@ class FieldBuilder
     /**
      * Sets field as primary key.
      *
-     * @return static
+     * @return FieldBuilder
      */
     public function makePrimaryKey()
     {
@@ -170,7 +182,7 @@ class FieldBuilder
      * @param string $name
      * @param mixed  $value
      *
-     * @return static
+     * @return FieldBuilder
      */
     public function option($name, $value)
     {
@@ -182,7 +194,7 @@ class FieldBuilder
     /**
      * @param string $strategy
      *
-     * @return static
+     * @return FieldBuilder
      */
     public function generatedValue($strategy = 'AUTO')
     {
@@ -194,7 +206,7 @@ class FieldBuilder
     /**
      * Sets field versioned.
      *
-     * @return static
+     * @return FieldBuilder
      */
     public function isVersionField()
     {
@@ -210,7 +222,7 @@ class FieldBuilder
      * @param int    $allocationSize
      * @param int    $initialValue
      *
-     * @return static
+     * @return FieldBuilder
      */
     public function setSequenceGenerator($sequenceName, $allocationSize = 1, $initialValue = 1)
     {
@@ -228,7 +240,7 @@ class FieldBuilder
      *
      * @param string $def
      *
-     * @return static
+     * @return FieldBuilder
      */
     public function columnDefinition($def)
     {

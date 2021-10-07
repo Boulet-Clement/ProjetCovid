@@ -1,5 +1,4 @@
 <?php
-
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -20,23 +19,15 @@
 
 namespace Doctrine\ORM\Internal\Hydration;
 
+use PDO;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query;
-use Exception;
-use PDO;
-use RuntimeException;
-
-use function array_keys;
-use function array_search;
-use function count;
-use function in_array;
-use function key;
-use function reset;
-use function sprintf;
 
 class SimpleObjectHydrator extends AbstractHydrator
 {
-    /** @var ClassMetadata */
+    /**
+     * @var ClassMetadata
+     */
     private $class;
 
     /**
@@ -45,11 +36,11 @@ class SimpleObjectHydrator extends AbstractHydrator
     protected function prepare()
     {
         if (count($this->_rsm->aliasMap) !== 1) {
-            throw new RuntimeException('Cannot use SimpleObjectHydrator with a ResultSetMapping that contains more than one object result.');
+            throw new \RuntimeException("Cannot use SimpleObjectHydrator with a ResultSetMapping that contains more than one object result.");
         }
 
         if ($this->_rsm->scalarMappings) {
-            throw new RuntimeException('Cannot use SimpleObjectHydrator with a ResultSetMapping that contains scalar mappings.');
+            throw new \RuntimeException("Cannot use SimpleObjectHydrator with a ResultSetMapping that contains scalar mappings.");
         }
 
         $this->class = $this->getClassMetadata(reset($this->_rsm->aliasMap));
@@ -85,61 +76,53 @@ class SimpleObjectHydrator extends AbstractHydrator
     /**
      * {@inheritdoc}
      */
-    protected function hydrateRowData(array $row, array &$result)
+    protected function hydrateRowData(array $sqlResult, array &$result)
     {
-        $entityName       = $this->class->name;
-        $data             = [];
-        $discrColumnValue = null;
+        $entityName = $this->class->name;
+        $data       = [];
 
         // We need to find the correct entity class name if we have inheritance in resultset
         if ($this->class->inheritanceType !== ClassMetadata::INHERITANCE_TYPE_NONE) {
             $discrColumnName = $this->_platform->getSQLResultCasing($this->class->discriminatorColumn['name']);
 
             // Find mapped discriminator column from the result set.
-            $metaMappingDiscrColumnName = array_search($discrColumnName, $this->_rsm->metaMappings);
-            if ($metaMappingDiscrColumnName) {
+            if ($metaMappingDiscrColumnName = array_search($discrColumnName, $this->_rsm->metaMappings)) {
                 $discrColumnName = $metaMappingDiscrColumnName;
             }
 
-            if (! isset($row[$discrColumnName])) {
+            if ( ! isset($sqlResult[$discrColumnName])) {
                 throw HydrationException::missingDiscriminatorColumn($entityName, $discrColumnName, key($this->_rsm->aliasMap));
             }
 
-            if ($row[$discrColumnName] === '') {
+            if ($sqlResult[$discrColumnName] === '') {
                 throw HydrationException::emptyDiscriminatorValue(key($this->_rsm->aliasMap));
             }
 
             $discrMap = $this->class->discriminatorMap;
 
-            if (! isset($discrMap[$row[$discrColumnName]])) {
-                throw HydrationException::invalidDiscriminatorValue($row[$discrColumnName], array_keys($discrMap));
+            if ( ! isset($discrMap[$sqlResult[$discrColumnName]])) {
+                throw HydrationException::invalidDiscriminatorValue($sqlResult[$discrColumnName], array_keys($discrMap));
             }
 
-            $entityName       = $discrMap[$row[$discrColumnName]];
-            $discrColumnValue = $row[$discrColumnName];
+            $entityName = $discrMap[$sqlResult[$discrColumnName]];
 
-            unset($row[$discrColumnName]);
+            unset($sqlResult[$discrColumnName]);
         }
 
-        foreach ($row as $column => $value) {
+        foreach ($sqlResult as $column => $value) {
             // An ObjectHydrator should be used instead of SimpleObjectHydrator
             if (isset($this->_rsm->relationMap[$column])) {
-                throw new Exception(sprintf('Unable to retrieve association information for column "%s"', $column));
+                throw new \Exception(sprintf('Unable to retrieve association information for column "%s"', $column));
             }
 
             $cacheKeyInfo = $this->hydrateColumnInfo($column);
 
-            if (! $cacheKeyInfo) {
-                continue;
-            }
-
-            // If we have inheritance in resultset, make sure the field belongs to the correct class
-            if (isset($cacheKeyInfo['discriminatorValues']) && ! in_array((string) $discrColumnValue, $cacheKeyInfo['discriminatorValues'], true)) {
+            if ( ! $cacheKeyInfo) {
                 continue;
             }
 
             // Check if value is null before conversion (because some types convert null to something else)
-            $valueIsNull = $value === null;
+            $valueIsNull = null === $value;
 
             // Convert field to a valid PHP value
             if (isset($cacheKeyInfo['type'])) {
@@ -150,7 +133,7 @@ class SimpleObjectHydrator extends AbstractHydrator
             $fieldName = $cacheKeyInfo['fieldName'];
 
             // Prevent overwrite in case of inherit classes using same property name (See AbstractHydrator)
-            if (! isset($data[$fieldName]) || ! $valueIsNull) {
+            if ( ! isset($data[$fieldName]) || ! $valueIsNull) {
                 $data[$fieldName] = $value;
             }
         }

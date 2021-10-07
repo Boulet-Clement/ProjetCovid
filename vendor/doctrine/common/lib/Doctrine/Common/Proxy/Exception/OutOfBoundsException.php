@@ -1,15 +1,13 @@
 <?php
-
 namespace Doctrine\Common\Proxy\Exception;
 
 use OutOfBoundsException as BaseOutOfBoundsException;
-
-use function sprintf;
 
 /**
  * Proxy Invalid Argument Exception.
  *
  * @link   www.doctrine-project.org
+ * @author Fredrik Wendel <fredrik_w@users.sourceforge.net>
  */
 class OutOfBoundsException extends BaseOutOfBoundsException implements ProxyException
 {
@@ -18,11 +16,9 @@ class OutOfBoundsException extends BaseOutOfBoundsException implements ProxyExce
      * @param string $idField
      *
      * @return self
-     *
-     * @psalm-param class-string $className
      */
     public static function missingPrimaryKeyValue($className, $idField)
     {
-        return new self(sprintf('Missing value for primary key %s on %s', $idField, $className));
+        return new self(sprintf("Missing value for primary key %s on %s", $idField, $className));
     }
 }

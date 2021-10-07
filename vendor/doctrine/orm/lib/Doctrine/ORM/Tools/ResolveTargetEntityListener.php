@@ -1,5 +1,4 @@
 <?php
-
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -20,25 +19,26 @@
 
 namespace Doctrine\ORM\Tools;
 
-use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Event\OnClassMetadataNotFoundEventArgs;
-use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping\ClassMetadata;
-
-use function array_key_exists;
-use function array_replace_recursive;
-use function ltrim;
+use Doctrine\Common\EventSubscriber;
+use Doctrine\ORM\Events;
 
 /**
  * ResolveTargetEntityListener
  *
  * Mechanism to overwrite interfaces or classes specified as association
  * targets.
+ *
+ * @author Benjamin Eberlei <kontakt@beberlei.de>
+ * @since 2.2
  */
 class ResolveTargetEntityListener implements EventSubscriber
 {
-    /** @var mixed[][] indexed by original entity name */
+    /**
+     * @var array[] indexed by original entity name
+     */
     private $resolveTargetEntities = [];
 
     /**
@@ -48,7 +48,7 @@ class ResolveTargetEntityListener implements EventSubscriber
     {
         return [
             Events::loadClassMetadata,
-            Events::onClassMetadataNotFound,
+            Events::onClassMetadataNotFound
         ];
     }
 
@@ -57,17 +57,19 @@ class ResolveTargetEntityListener implements EventSubscriber
      *
      * @param string $originalEntity
      * @param string $newEntity
-     * @psalm-param array<string, mixed> $mapping
+     * @param array  $mapping
      *
      * @return void
      */
     public function addResolveTargetEntity($originalEntity, $newEntity, array $mapping)
     {
-        $mapping['targetEntity']                                   = ltrim($newEntity, '\\');
-        $this->resolveTargetEntities[ltrim($originalEntity, '\\')] = $mapping;
+        $mapping['targetEntity']                                   = ltrim($newEntity, "\\");
+        $this->resolveTargetEntities[ltrim($originalEntity, "\\")] = $mapping;
     }
 
     /**
+     * @param OnClassMetadataNotFoundEventArgs $args
+     *
      * @internal this is an event callback, and should not be called directly
      *
      * @return void
@@ -86,12 +88,15 @@ class ResolveTargetEntityListener implements EventSubscriber
     /**
      * Processes event and resolves new target entity names.
      *
-     * @internal this is an event callback, and should not be called directly
+     * @param LoadClassMetadataEventArgs $args
      *
      * @return void
+     *
+     * @internal this is an event callback, and should not be called directly
      */
     public function loadClassMetadata(LoadClassMetadataEventArgs $args)
     {
+        /* @var $cm \Doctrine\ORM\Mapping\ClassMetadata */
         $cm = $args->getClassMetadata();
 
         foreach ($cm->associationMappings as $mapping) {
@@ -101,25 +106,22 @@ class ResolveTargetEntityListener implements EventSubscriber
         }
 
         foreach ($this->resolveTargetEntities as $interface => $data) {
-            if ($data['targetEntity'] === $cm->getName()) {
+            if ($data['targetEntity'] == $cm->getName()) {
                 $args->getEntityManager()->getMetadataFactory()->setMetadataFor($interface, $cm);
-            }
-        }
-
-        foreach ($cm->discriminatorMap as $value => $class) {
-            if (isset($this->resolveTargetEntities[$class])) {
-                $cm->addDiscriminatorMapClass($value, $this->resolveTargetEntities[$class]['targetEntity']);
             }
         }
     }
 
     /**
-     * @param mixed[] $mapping
+     * @param \Doctrine\ORM\Mapping\ClassMetadataInfo $classMetadata
+     * @param array                                   $mapping
+     *
+     * @return void
      */
-    private function remapAssociation(ClassMetadata $classMetadata, array $mapping): void
+    private function remapAssociation($classMetadata, $mapping)
     {
-        $newMapping              = $this->resolveTargetEntities[$mapping['targetEntity']];
-        $newMapping              = array_replace_recursive($mapping, $newMapping);
+        $newMapping = $this->resolveTargetEntities[$mapping['targetEntity']];
+        $newMapping = array_replace_recursive($mapping, $newMapping);
         $newMapping['fieldName'] = $mapping['fieldName'];
 
         unset($classMetadata->associationMappings[$mapping['fieldName']]);

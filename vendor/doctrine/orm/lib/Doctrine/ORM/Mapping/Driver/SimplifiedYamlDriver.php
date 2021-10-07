@@ -1,5 +1,4 @@
 <?php
-
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -20,14 +19,18 @@
 
 namespace Doctrine\ORM\Mapping\Driver;
 
-use Doctrine\Persistence\Mapping\Driver\SymfonyFileLocator;
+use Doctrine\Common\Persistence\Mapping\Driver\SymfonyFileLocator;
 
 /**
  * YamlDriver that additionally looks for mapping information in a global file.
+ *
+ * @author Fabien Potencier <fabien@symfony.com>
+ * @author Benjamin Eberlei <kontakt@beberlei.de>
+ * @license MIT
  */
 class SimplifiedYamlDriver extends YamlDriver
 {
-    public const DEFAULT_FILE_EXTENSION = '.orm.yml';
+    const DEFAULT_FILE_EXTENSION = '.orm.yml';
 
     /**
      * {@inheritDoc}

@@ -1,5 +1,4 @@
 <?php
-
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -20,39 +19,29 @@
 
 namespace Doctrine\ORM\Tools;
 
-use Doctrine\Deprecations\Deprecation;
 use Doctrine\ORM\EntityRepository;
-
-use function array_keys;
-use function array_values;
-use function chmod;
-use function dirname;
-use function file_exists;
-use function file_put_contents;
-use function is_dir;
-use function mkdir;
-use function str_replace;
-use function strlen;
-use function strrpos;
-use function substr;
-
-use const DIRECTORY_SEPARATOR;
+use const E_USER_DEPRECATED;
+use function trigger_error;
 
 /**
  * Class to generate entity repository classes
  *
- * @deprecated 2.7 This class is being removed from the ORM and won't have any replacement
  *
  * @link    www.doctrine-project.org
+ * @since   2.0
+ * @author  Benjamin Eberlei <kontakt@beberlei.de>
+ * @author  Guilherme Blanco <guilhermeblanco@hotmail.com>
+ * @author  Jonathan Wage <jonwage@gmail.com>
+ * @author  Roman Borschel <roman@code-factory.org>
+ *
+ * @deprecated 2.7 This class is being removed from the ORM and won't have any replacement
  */
 class EntityRepositoryGenerator
 {
-    /** @psalm-var class-string */
     private $repositoryName;
 
-    /** @var string */
     protected static $_template =
-    '<?php
+'<?php
 
 <namespace>
 
@@ -69,12 +58,7 @@ class <className> extends <repositoryName>
 
     public function __construct()
     {
-        Deprecation::trigger(
-            'doctrine/orm',
-            'https://github.com/doctrine/orm/issues/8458',
-            '%s is deprecated and will be removed in Doctrine ORM 3.0',
-            self::class
-        );
+        @trigger_error(self::class . ' is deprecated and will be removed in Doctrine ORM 3.0', E_USER_DEPRECATED);
     }
 
     /**
@@ -87,7 +71,7 @@ class <className> extends <repositoryName>
         $variables = [
             '<namespace>'       => $this->generateEntityRepositoryNamespace($fullClassName),
             '<repositoryName>'  => $this->generateEntityRepositoryName($fullClassName),
-            '<className>'       => $this->generateClassName($fullClassName),
+            '<className>'       => $this->generateClassName($fullClassName)
         ];
 
         return str_replace(array_keys($variables), array_values($variables), self::$_template);
@@ -96,19 +80,25 @@ class <className> extends <repositoryName>
     /**
      * Generates the namespace, if class do not have namespace, return empty string instead.
      *
-     * @psalm-param class-string $fullClassName
+     * @param string $fullClassName
+     *
+     * @return string $namespace
      */
-    private function getClassNamespace(string $fullClassName): string
+    private function getClassNamespace($fullClassName)
     {
-        return substr($fullClassName, 0, strrpos($fullClassName, '\\'));
+        $namespace = substr($fullClassName, 0, strrpos($fullClassName, '\\'));
+
+        return $namespace;
     }
 
     /**
      * Generates the class name
      *
-     * @psalm-param class-string $fullClassName
+     * @param string $fullClassName
+     *
+     * @return string
      */
-    private function generateClassName(string $fullClassName): string
+    private function generateClassName($fullClassName)
     {
         $namespace = $this->getClassNamespace($fullClassName);
 
@@ -124,16 +114,23 @@ class <className> extends <repositoryName>
     /**
      * Generates the namespace statement, if class do not have namespace, return empty string instead.
      *
-     * @psalm-param class-string $fullClassName The full repository class name.
+     * @param string $fullClassName The full repository class name.
+     *
+     * @return string $namespace
      */
-    private function generateEntityRepositoryNamespace(string $fullClassName): string
+    private function generateEntityRepositoryNamespace($fullClassName)
     {
         $namespace = $this->getClassNamespace($fullClassName);
 
         return $namespace ? 'namespace ' . $namespace . ';' : '';
     }
 
-    private function generateEntityRepositoryName(string $fullClassName): string
+    /**
+     * @param string $fullClassName
+     *
+     * @return string $repositoryName
+     */
+    private function generateEntityRepositoryName($fullClassName)
     {
         $namespace = $this->getClassNamespace($fullClassName);
 
@@ -157,14 +154,14 @@ class <className> extends <repositoryName>
         $code = $this->generateEntityRepositoryClass($fullClassName);
 
         $path = $outputDirectory . DIRECTORY_SEPARATOR
-              . str_replace('\\', DIRECTORY_SEPARATOR, $fullClassName) . '.php';
-        $dir  = dirname($path);
+              . str_replace('\\', \DIRECTORY_SEPARATOR, $fullClassName) . '.php';
+        $dir = dirname($path);
 
-        if (! is_dir($dir)) {
+        if ( ! is_dir($dir)) {
             mkdir($dir, 0775, true);
         }
 
-        if (! file_exists($path)) {
+        if ( ! file_exists($path)) {
             file_put_contents($path, $code);
             chmod($path, 0664);
         }
@@ -173,7 +170,7 @@ class <className> extends <repositoryName>
     /**
      * @param string $repositoryName
      *
-     * @return static
+     * @return \Doctrine\ORM\Tools\EntityRepositoryGenerator
      */
     public function setDefaultRepositoryName($repositoryName)
     {
@@ -181,4 +178,5 @@ class <className> extends <repositoryName>
 
         return $this;
     }
+
 }

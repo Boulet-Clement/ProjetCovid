@@ -1,5 +1,4 @@
 <?php
-
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -20,24 +19,25 @@
 
 namespace Doctrine\ORM\Mapping;
 
-use Attribute;
-use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
-
 /**
  * @Annotation
- * @NamedArgumentConstructor()
  * @Target("CLASS")
  */
-#[Attribute(Attribute::TARGET_CLASS)]
 final class DiscriminatorColumn implements Annotation
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     public $name;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     public $type;
 
-    /** @var int */
+    /**
+     * @var integer
+     */
     public $length;
 
     /**
@@ -47,18 +47,8 @@ final class DiscriminatorColumn implements Annotation
      */
     public $fieldName;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     public $columnDefinition;
-
-    public function __construct(
-        ?string $name = null,
-        ?string $type = null,
-        ?int $length = null,
-        ?string $columnDefinition = null
-    ) {
-        $this->name             = $name;
-        $this->type             = $type;
-        $this->length           = $length;
-        $this->columnDefinition = $columnDefinition;
-    }
 }

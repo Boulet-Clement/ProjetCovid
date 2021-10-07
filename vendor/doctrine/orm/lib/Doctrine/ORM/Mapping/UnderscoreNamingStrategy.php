@@ -20,30 +20,34 @@
 
 namespace Doctrine\ORM\Mapping;
 
-use Doctrine\Deprecations\Deprecation;
-
+use const CASE_LOWER;
+use const CASE_UPPER;
+use const E_USER_DEPRECATED;
 use function preg_replace;
 use function strpos;
 use function strrpos;
 use function strtolower;
 use function strtoupper;
 use function substr;
-
-use const CASE_LOWER;
-use const CASE_UPPER;
+use function trigger_error;
 
 /**
  * Naming strategy implementing the underscore naming convention.
  * Converts 'MyEntity' to 'my_entity' or 'MY_ENTITY'.
  *
+ *
  * @link    www.doctrine-project.org
+ * @since   2.3
+ * @author  Fabio B. Silva <fabio.bat.silva@gmail.com>
  */
 class UnderscoreNamingStrategy implements NamingStrategy
 {
     private const DEFAULT_PATTERN      = '/(?<=[a-z])([A-Z])/';
     private const NUMBER_AWARE_PATTERN = '/(?<=[a-z0-9])([A-Z])/';
 
-    /** @var int */
+    /**
+     * @var integer
+     */
     private $case;
 
     /** @var string */
@@ -57,11 +61,9 @@ class UnderscoreNamingStrategy implements NamingStrategy
     public function __construct($case = CASE_LOWER, bool $numberAware = false)
     {
         if (! $numberAware) {
-            Deprecation::trigger(
-                'doctrine/orm',
-                'https://github.com/doctrine/orm/pull/7908',
-                'Creating %s without setting second argument $numberAware=true is deprecated and will be removed in Doctrine ORM 3.0.',
-                self::class
+            @trigger_error(
+                'Creating ' . self::class . ' without making it number aware is deprecated and will be removed in Doctrine ORM 3.0.',
+                E_USER_DEPRECATED
             );
         }
 
@@ -70,7 +72,7 @@ class UnderscoreNamingStrategy implements NamingStrategy
     }
 
     /**
-     * @return int CASE_LOWER | CASE_UPPER
+     * @return integer CASE_LOWER | CASE_UPPER
      */
     public function getCase()
     {
@@ -81,7 +83,7 @@ class UnderscoreNamingStrategy implements NamingStrategy
      * Sets string case CASE_LOWER | CASE_UPPER.
      * Alphabetic characters converted to lowercase or uppercase.
      *
-     * @param int $case
+     * @param integer $case
      *
      * @return void
      */
@@ -115,7 +117,7 @@ class UnderscoreNamingStrategy implements NamingStrategy
      */
     public function embeddedFieldToColumnName($propertyName, $embeddedColumnName, $className = null, $embeddedClassName = null)
     {
-        return $this->underscore($propertyName) . '_' . $embeddedColumnName;
+        return $this->underscore($propertyName).'_'.$embeddedColumnName;
     }
 
     /**
@@ -151,7 +153,7 @@ class UnderscoreNamingStrategy implements NamingStrategy
                 ($referencedColumnName ?: $this->referenceColumnName());
     }
 
-    private function underscore(string $string): string
+    private function underscore(string $string) : string
     {
         $string = preg_replace($this->pattern, '_$1', $string);
 

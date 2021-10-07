@@ -4,6 +4,7 @@ namespace Doctrine\Persistence\Mapping;
 
 use ReflectionClass;
 use ReflectionProperty;
+use function interface_exists;
 
 /**
  * Very simple reflection service abstraction.
@@ -17,10 +18,8 @@ interface ReflectionService
      * Returns an array of the parent classes (not interfaces) for the given class.
      *
      * @param string $class
-     * @psalm-param class-string $class
      *
      * @return string[]
-     * @psalm-return class-string[]
      *
      * @throws MappingException
      */
@@ -30,7 +29,6 @@ interface ReflectionService
      * Returns the shortname of a class.
      *
      * @param string $class
-     * @psalm-param class-string $class
      *
      * @return string
      */
@@ -38,7 +36,6 @@ interface ReflectionService
 
     /**
      * @param string $class
-     * @psalm-param class-string $class
      *
      * @return string
      */
@@ -48,12 +45,8 @@ interface ReflectionService
      * Returns a reflection class instance or null.
      *
      * @param string $class
-     * @psalm-param class-string<T> $class
      *
      * @return ReflectionClass|null
-     * @psalm-return ReflectionClass<T>|null
-     *
-     * @template T of object
      */
     public function getClass($class);
 
@@ -62,7 +55,6 @@ interface ReflectionService
      *
      * @param string $class
      * @param string $property
-     * @psalm-param class-string $class
      *
      * @return ReflectionProperty|null
      */
@@ -73,9 +65,10 @@ interface ReflectionService
      *
      * @param mixed $class
      * @param mixed $method
-     * @psalm-param class-string $class
      *
      * @return bool
      */
     public function hasPublicMethod($class, $method);
 }
+
+interface_exists(\Doctrine\Common\Persistence\Mapping\ReflectionService::class);

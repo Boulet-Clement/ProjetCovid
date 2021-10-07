@@ -2,6 +2,7 @@
 
 namespace Doctrine\Persistence\Mapping;
 
+use function class_exists;
 use function strpos;
 use function strrev;
 use function strrpos;
@@ -25,10 +26,8 @@ class StaticReflectionService implements ReflectionService
      */
     public function getClassShortName($className)
     {
-        $nsSeparatorLastPosition = strrpos($className, '\\');
-
-        if ($nsSeparatorLastPosition !== false) {
-            $className = substr($className, $nsSeparatorLastPosition + 1);
+        if (strpos($className, '\\') !== false) {
+            $className = substr($className, strrpos($className, '\\') + 1);
         }
 
         return $className;
@@ -41,7 +40,7 @@ class StaticReflectionService implements ReflectionService
     {
         $namespace = '';
         if (strpos($className, '\\') !== false) {
-            $namespace = strrev(substr(strrev($className), (int) strpos(strrev($className), '\\') + 1));
+            $namespace = strrev(substr(strrev($className), strpos(strrev($className), '\\') + 1));
         }
 
         return $namespace;
@@ -49,8 +48,6 @@ class StaticReflectionService implements ReflectionService
 
     /**
      * {@inheritDoc}
-     *
-     * @return null
      */
     public function getClass($class)
     {
@@ -73,3 +70,5 @@ class StaticReflectionService implements ReflectionService
         return true;
     }
 }
+
+class_exists(\Doctrine\Common\Persistence\Mapping\StaticReflectionService::class);

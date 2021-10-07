@@ -1,5 +1,4 @@
 <?php
-
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -26,18 +25,23 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-use function count;
-use function sprintf;
-
 /**
  * Command to generate the SQL needed to update the database schema to match
  * the current mapping information.
  *
  * @link    www.doctrine-project.org
+ * @since   2.0
+ * @author  Benjamin Eberlei <kontakt@beberlei.de>
+ * @author  Guilherme Blanco <guilhermeblanco@hotmail.com>
+ * @author  Jonathan Wage <jonwage@gmail.com>
+ * @author  Roman Borschel <roman@code-factory.org>
+ * @author  Ryan Weaver <ryan@thatsquality.com>
  */
 class UpdateCommand extends AbstractCommand
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $name = 'orm:schema-tool:update';
 
     /**
@@ -47,7 +51,6 @@ class UpdateCommand extends AbstractCommand
     {
         $this->setName($this->name)
              ->setDescription('Executes (or dumps) the SQL needed to update the database schema to match the current mapping metadata')
-             ->addOption('em', null, InputOption::VALUE_REQUIRED, 'Name of the entity manager to operate on')
              ->addOption('complete', null, InputOption::VALUE_NONE, 'If defined, all assets of the database which are not relevant to the current metadata will be dropped.')
              ->addOption('dump-sql', null, InputOption::VALUE_NONE, 'Dumps the generated SQL statements to the screen (does not execute them).')
              ->addOption('force', 'f', InputOption::VALUE_NONE, 'Causes the generated SQL statements to be physically executed against your database.')
@@ -100,8 +103,8 @@ EOT
             return 0;
         }
 
-        $dumpSql = $input->getOption('dump-sql') === true;
-        $force   = $input->getOption('force') === true;
+        $dumpSql = true === $input->getOption('dump-sql');
+        $force   = true === $input->getOption('force');
 
         if ($dumpSql) {
             $ui->text('The following SQL statements will be executed:');
@@ -116,13 +119,12 @@ EOT
             if ($dumpSql) {
                 $ui->newLine();
             }
-
             $ui->text('Updating database schema...');
             $ui->newLine();
 
             $schemaTool->updateSchema($metadatas, $saveMode);
 
-            $pluralization = count($sqls) === 1 ? 'query was' : 'queries were';
+            $pluralization = (1 === count($sqls)) ? 'query was' : 'queries were';
 
             $ui->text(sprintf('    <info>%s</info> %s executed', count($sqls), $pluralization));
             $ui->success('Database schema updated successfully!');

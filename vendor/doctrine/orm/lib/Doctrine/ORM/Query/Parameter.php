@@ -1,5 +1,4 @@
 <?php
-
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -26,21 +25,11 @@ use function trim;
  * Defines a Query Parameter.
  *
  * @link    www.doctrine-project.org
+ * @since   2.3
+ * @author  Guilherme Blanco <guilhermeblanco@hotmail.com>
  */
 class Parameter
 {
-    /**
-     * Returns the internal representation of a parameter name.
-     *
-     * @param string|int $name The parameter name or position.
-     *
-     * @return string The normalized parameter name.
-     */
-    public static function normalizeName($name)
-    {
-        return trim((string) $name, ':');
-    }
-
     /**
      * The parameter name.
      *
@@ -70,13 +59,15 @@ class Parameter
     private $typeSpecified;
 
     /**
+     * Constructor.
+     *
      * @param string $name  Parameter name
      * @param mixed  $value Parameter value
      * @param mixed  $type  Parameter type
      */
     public function __construct($name, $value, $type = null)
     {
-        $this->name          = self::normalizeName($name);
+        $this->name          = trim($name, ':');
         $this->typeSpecified = $type !== null;
 
         $this->setValue($value, $type);
@@ -117,8 +108,6 @@ class Parameter
      *
      * @param mixed $value Parameter value.
      * @param mixed $type  Parameter type.
-     *
-     * @return void
      */
     public function setValue($value, $type = null)
     {
@@ -126,7 +115,7 @@ class Parameter
         $this->type  = $type ?: ParameterTypeInferer::inferType($value);
     }
 
-    public function typeWasSpecified(): bool
+    public function typeWasSpecified() : bool
     {
         return $this->typeSpecified;
     }

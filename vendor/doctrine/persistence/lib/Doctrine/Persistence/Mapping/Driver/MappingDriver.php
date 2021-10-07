@@ -3,6 +3,7 @@
 namespace Doctrine\Persistence\Mapping\Driver;
 
 use Doctrine\Persistence\Mapping\ClassMetadata;
+use function interface_exists;
 
 /**
  * Contract for metadata drivers.
@@ -13,12 +14,8 @@ interface MappingDriver
      * Loads the metadata for the specified class into the provided container.
      *
      * @param string $className
-     * @psalm-param class-string<T> $className
-     * @psalm-param ClassMetadata<T> $metadata
      *
      * @return void
-     *
-     * @template T of object
      */
     public function loadMetadataForClass($className, ClassMetadata $metadata);
 
@@ -26,7 +23,6 @@ interface MappingDriver
      * Gets the names of all mapped classes known to this driver.
      *
      * @return string[] The names of all mapped classes known to this driver.
-     * @psalm-return list<class-string>
      */
     public function getAllClassNames();
 
@@ -35,9 +31,11 @@ interface MappingDriver
      * This is only the case if it is either mapped as an Entity or a MappedSuperclass.
      *
      * @param string $className
-     * @psalm-param class-string $className
      *
      * @return bool
      */
     public function isTransient($className);
 }
+
+interface_exists(\Doctrine\Common\Persistence\Mapping\Driver\MappingDriver::class);
+interface_exists(ClassMetadata::class);

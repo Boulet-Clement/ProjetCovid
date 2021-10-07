@@ -1,5 +1,4 @@
 <?php
-
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -20,27 +19,23 @@
 
 namespace Doctrine\ORM\Persisters\Collection;
 
-use BadMethodCallException;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\PersistentCollection;
 use Doctrine\ORM\Utility\PersisterHelper;
 
-use function array_merge;
-use function array_reverse;
-use function array_values;
-use function implode;
-
 /**
  * Persister for one-to-many collections.
+ *
+ * @author  Roman Borschel <roman@code-factory.org>
+ * @author  Guilherme Blanco <guilhermeblanco@hotmail.com>
+ * @author  Alexander <iam.asm89@gmail.com>
+ * @since   2.0
  */
 class OneToManyPersister extends AbstractCollectionPersister
 {
     /**
      * {@inheritdoc}
-     *
-     * @return int|null
      */
     public function delete(PersistentCollection $collection)
     {
@@ -49,7 +44,7 @@ class OneToManyPersister extends AbstractCollectionPersister
         // the entire collection with a new would trigger this operation.
         $mapping = $collection->getMapping();
 
-        if (! $mapping['orphanRemoval']) {
+        if ( ! $mapping['orphanRemoval']) {
             // Handling non-orphan removal should never happen, as @OneToMany
             // can only be inverse side. For owning side one to many, it is
             // required to have a join table, which would classify as a ManyToManyPersister.
@@ -81,8 +76,8 @@ class OneToManyPersister extends AbstractCollectionPersister
     {
         $mapping = $collection->getMapping();
 
-        if (! isset($mapping['indexBy'])) {
-            throw new BadMethodCallException('Selecting a collection by index is only supported on indexed collections.');
+        if ( ! isset($mapping['indexBy'])) {
+            throw new \BadMethodCallException("Selecting a collection by index is only supported on indexed collections.");
         }
 
         $persister = $this->uow->getEntityPersister($mapping['targetEntity']);
@@ -90,7 +85,7 @@ class OneToManyPersister extends AbstractCollectionPersister
         return $persister->load(
             [
                 $mapping['mappedBy'] => $collection->getOwner(),
-                $mapping['indexBy']  => $index,
+                $mapping['indexBy']  => $index
             ],
             null,
             $mapping,
@@ -134,8 +129,8 @@ class OneToManyPersister extends AbstractCollectionPersister
     {
         $mapping = $collection->getMapping();
 
-        if (! isset($mapping['indexBy'])) {
-            throw new BadMethodCallException('Selecting a collection by index is only supported on indexed collections.');
+        if ( ! isset($mapping['indexBy'])) {
+            throw new \BadMethodCallException("Selecting a collection by index is only supported on indexed collections.");
         }
 
         $persister = $this->uow->getEntityPersister($mapping['targetEntity']);
@@ -152,11 +147,11 @@ class OneToManyPersister extends AbstractCollectionPersister
     }
 
      /**
-      * {@inheritdoc}
-      */
+     * {@inheritdoc}
+     */
     public function contains(PersistentCollection $collection, $element)
     {
-        if (! $this->isValidEntityState($element)) {
+        if ( ! $this->isValidEntityState($element)) {
             return false;
         }
 
@@ -174,15 +169,41 @@ class OneToManyPersister extends AbstractCollectionPersister
     /**
      * {@inheritdoc}
      */
-    public function loadCriteria(PersistentCollection $collection, Criteria $criteria)
+    public function removeElement(PersistentCollection $collection, $element)
     {
-        throw new BadMethodCallException('Filtering a collection by Criteria is not supported by this CollectionPersister.');
+        $mapping = $collection->getMapping();
+
+        if ( ! $mapping['orphanRemoval']) {
+            // no-op: this is not the owning side, therefore no operations should be applied
+            return false;
+        }
+
+        if ( ! $this->isValidEntityState($element)) {
+            return false;
+        }
+
+        return $this
+            ->uow
+            ->getEntityPersister($mapping['targetEntity'])
+            ->delete($element);
     }
 
     /**
-     * @throws DBALException
+     * {@inheritdoc}
      */
-    private function deleteEntityCollection(PersistentCollection $collection): int
+    public function loadCriteria(PersistentCollection $collection, Criteria $criteria)
+    {
+        throw new \BadMethodCallException("Filtering a collection by Criteria is not supported by this CollectionPersister.");
+    }
+
+    /**
+     * @param PersistentCollection $collection
+     *
+     * @return int
+     *
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    private function deleteEntityCollection(PersistentCollection $collection)
     {
         $mapping     = $collection->getMapping();
         $identifier  = $this->uow->getEntityIdentifier($collection->getOwner());
@@ -208,9 +229,13 @@ class OneToManyPersister extends AbstractCollectionPersister
      *
      * Thanks Steve Ebersole (Hibernate) for idea on how to tackle reliably this scenario, we owe him a beer! =)
      *
-     * @throws DBALException
+     * @param PersistentCollection $collection
+     *
+     * @return int
+     *
+     * @throws \Doctrine\DBAL\DBALException
      */
-    private function deleteJoinedEntityCollection(PersistentCollection $collection): int
+    private function deleteJoinedEntityCollection(PersistentCollection $collection)
     {
         $mapping     = $collection->getMapping();
         $sourceClass = $this->em->getClassMetadata($mapping['sourceEntity']);
