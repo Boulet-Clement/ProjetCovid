@@ -11,7 +11,7 @@ $containerBuilder->addDefinitions([
    'doctrine' => [
             'dev_mode' => true,
             'cache_dir' => __DIR__.'/../var/cache/doctrine',
-            'metadata_dirs' => [__DIR__.'/../src/Domain/'],
+            'metadata_dirs' => [__DIR__.'/../src/Model/'],
             'connection' => [
                 'driver' => 'pdo_mysql',
                 'host' => 'localhost',

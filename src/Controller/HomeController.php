@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Controller;
-use App\Model\HomeClass;
-require __DIR__ . '/../../src/Model/homeClass.php';
 
 class HomeController
 {
