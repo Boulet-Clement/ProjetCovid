@@ -8,7 +8,6 @@
  *
  * @generated
  */
-
 $binPath = realpath(__DIR__ . "/" . '../doctrine/orm/bin/doctrine');
 $contents = file_get_contents($binPath);
 $contents = preg_replace('{^#!/.+\r?\n<\?(php)?}', '', $contents, 1, $replaced);
