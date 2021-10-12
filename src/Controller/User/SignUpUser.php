@@ -17,7 +17,7 @@ class SignUpUser extends BaseController{
         $parsedBody = $this->request->getParsedBody();
         $login = htmlspecialchars($parsedBody['login']);
         $password =  htmlspecialchars($parsedBody['password']);
-        $user = new User(null,$login,"pierre","Jean","test@gmail.com",$password);
+        $user = new User(null,$login,"Paul","Jacques","teazeazast@gmail.com",$password);
         
         $this->em->persist($user);
         $this->em->flush();

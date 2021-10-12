@@ -11,6 +11,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\Setup;
 
+use Slim\Views\Twig;
+
 return function (ContainerBuilder $containerBuilder){
     $containerBuilder->addDefinitions([
         EntityManager::class => function (ContainerInterface $container): EntityManager{
@@ -35,5 +37,16 @@ return function (ContainerBuilder $containerBuilder){
                 $config
             );
         },
+        Twig::class => function (ContainerInterface $container) {
+            $settings = $container->get('settings');
+            $twigSettings = $settings['twig'];
+
+            $options = $twigSettings['options'];
+            $options['cache'] = $options['cache_enabled'] ? $options['cache_path'] : false;
+
+            $twig = Twig::create($twigSettings['paths'], $options);
+
+            return $twig;
+        }
     ]);
 };
