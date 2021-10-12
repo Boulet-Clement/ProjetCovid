@@ -31,7 +31,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && !isset($_SESSION['login'])){
 				?>
 			</div>
 			<h1>Signup</h1>
-			<form action="/signUpForm" method="POST" id="auth_form">
+			<form action="/signup" method="POST" id="auth_form">
 			<div class="row">
 				<div class="input-field col s3">
 					<input placeholder="Login" id="input_login" type="text" class="validate" name="login">

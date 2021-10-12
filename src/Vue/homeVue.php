@@ -27,7 +27,10 @@
         <a class="nav-link" href="/">Accueil <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/auth">Se connecter</a>
+        <a class="nav-link" href="/signin">Se connecter</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/signup">Se connecter</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Aide</a>
