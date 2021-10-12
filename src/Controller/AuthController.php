@@ -8,16 +8,27 @@ require __DIR__ . '/../../src/Model/homeClass.php';*/
 class AuthController
 {
 
-    public function __construct()
+    private $request;
+    private $response;
+    private $args;
+    public function __construct($request, $response, array $args)
     {
-        return;
+      $this->request = $request;
+      $this->response = $response;
     }
     
-    public function signUp(array $data)
+    public function signUp()
     {
-      $login = $data['login'];
-      return $login;
+
+        // return $this->render($request, $response, 'signUp.twig');
     }
+    /*public function __invoke($request, $response, array $args)
+    {
+        $this->request = $request;
+        $this->response = $response;
+        $this->args = $args;
+        return;
+    }*/
     
     public function signIn(){
       $login = $_POST['login'];
