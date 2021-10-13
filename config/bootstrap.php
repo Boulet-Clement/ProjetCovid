@@ -11,7 +11,6 @@ use DI\ContainerBuilder;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-require __DIR__ . '/../src/PhpRenderer.php';
 $app = \DI\Bridge\Slim\Bridge::create();
 
 // Instantiate PHP-DI ContainerBuilder
