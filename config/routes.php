@@ -22,16 +22,14 @@ $app->get('/',function ($request, $response, array $args){
     $renderer = new PhpRenderer('../src/Vue');
     return $renderer->render($response,'homeVue.php', $args);
 });*/
+
 $app->get('/',function ($request, $response, array $args){
-    return $this->get(Twig::class)->render($response,"test.twig",[
-        'test' => "salut"
-    ]);
+    return $this->get(Twig::class)->render($response,"home/index.html.twig");
 });
 $app->group('/signin', function (RouteCollectorProxy $group) {
     $group->get('', function(Request $request, Response $response){
         //Si connecté, envoyer à la page d'accueil?
-        $renderer = new PhpRenderer('../src/Vue');
-        return $renderer->render($response,'signInVue.php');
+        return $this->get(Twig::class)->render($response,"signIn.html.twig");
     });
     $group->post('', SignInUser::class);    
 });
@@ -39,7 +37,7 @@ $app->group('/signup', function (RouteCollectorProxy $group) {
     $group->get('', function(Request $request, Response $response){
         //Si déja existant : envoyer sur la page de signin
         $renderer = new PhpRenderer('../src/Vue');
-        return $renderer->render($response,'signUpVue.php');
+        return $this->get(Twig::class)->render($response,"signUp.html.twig");
     });
     $group->post('', SignUpUser::class);    
 });
