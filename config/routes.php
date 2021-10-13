@@ -42,7 +42,14 @@ $app->group('/signup', function (RouteCollectorProxy $group) {
     $group->post('', SignUpUser::class);    
 });
 
-
+$app->group('/group', function (RouteCollectorProxy $group) {
+    $group->get('', function(Request $request, Response $response){
+        //Si déja existant : envoyer sur la page de signin
+        $renderer = new PhpRenderer('../src/Vue');
+        return $this->get(Twig::class)->render($response,"group.html.twig");
+    });
+    $group->post('', SignUpUser::class);    
+});
 
 
 
