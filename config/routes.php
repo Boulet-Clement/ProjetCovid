@@ -21,15 +21,21 @@ $app->group('/signin', function (RouteCollectorProxy $group) {
         //Si connecté, envoyer à la page d'accueil?
         return $this->get(Twig::class)->render($response,"auth/signIn.html.twig");
     });
-    $group->post('', SignInUser::class);    
+    $group->post('', SignInUser::class);
 });
 $app->group('/signup', function (RouteCollectorProxy $group) {
     $group->get('', function(Request $request, Response $response){
         //Si déja existant : envoyer sur la page de signin
         return $this->get(Twig::class)->render($response,"auth/signUp.html.twig");
     });
-    $group->post('', SignUpUser::class);    
+    $group->post('', SignUpUser::class);
 });
-$app->get('/group',function ($request, $response, array $args){
-    return $this->get(Twig::class)->render($response,"group/index.html.twig");
+
+$app->group('/group', function (RouteCollectorProxy $group) {
+    $group->get('', function(Request $request, Response $response){
+        //Si déja existant : envoyer sur la page de signin
+        $renderer = new PhpRenderer('../src/Vue');
+        return $this->get(Twig::class)->render($response,"group.html.twig");
+    });
+    $group->post('', SignUpUser::class);
 });
