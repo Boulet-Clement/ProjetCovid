@@ -15,10 +15,10 @@ $containerBuilder->addDefinitions([
             'connection' => [
                 'driver' => 'pdo_mysql',
                 'host' => 'db',
-                'port' => 3306,
+                'port' => 8100,
                 'dbname' => 'projetcovid',
-                'user' => 'root',
-                'password' => 'root',
+                'user' => 'utilisateur',
+                'password' => 'utilisateur',
                 ]
             ],
         'twig' => [
