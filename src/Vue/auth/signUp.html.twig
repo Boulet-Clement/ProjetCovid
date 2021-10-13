@@ -6,7 +6,7 @@
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/auth/signin.css">
+    <link rel="stylesheet" href="css/auth/auth.css">
 {% endblock %}
 
 {% block main %}
@@ -21,6 +21,24 @@
 				<form action="/signup" method ="POST">
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-address-card"></i></span>
+						</div>
+						<input name="firstname" type="text" class="form-control" placeholder="Prénom" id="input_firstname">
+					</div>
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="far fa-address-card"></i></span>
+						</div>
+						<input name="lastname" type="text" class="form-control" placeholder="Nom" id="input_lastname">
+					</div>
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-mail-bulk"></i></span>
+						</div>
+						<input name="mail" type="text" class="form-control" placeholder="Adresse mail" id="input_mail">
+					</div>
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-user"></i></span>
 						</div>
 						<input name="login" type="text" class="form-control" placeholder="Login" id="input_login">
@@ -29,13 +47,17 @@
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-key"></i></span>
 						</div>
-						<input name="password" type="password" class="form-control" placeholder="Mot de passe">
+						<input name="password" type="password" class="form-control" placeholder="Mot de passe" id="input_password">
 					</div>
-					<div class="row align-items-center remember">
-						<input type="checkbox">Remember Me
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-key"></i></span>
+						</div>
+						<input name="confirm_password" type="password" class="form-control" placeholder="Confirmez le mot de passe" id="input_confirm_password">
 					</div>
+
 					<div class="form-group">
-						<input type="submit" value="Login" class="btn float-right login_btn">
+						<input type="submit" value="Je m'inscris" class="btn float-right login_btn">
 					</div>
 				</form>
 			</div>
@@ -61,18 +83,7 @@
 	<body>
 		<div class="container">
 			<form action="/signup" method="POST" id="auth_form">
-			<div class="row">
-				<div class="input-field col s3">
-					<input placeholder="Login" id="input_login" type="text" class="validate" name="login">
-					<label for="input_login">Login</label>
-				</div>
-			</div>
-			<div class="row">
-				<div class="input-field col s3">
-					<input placeholder="Password" id="input_password" type="password" class="validate" name="password">
-					<label for="input_password">Password</label>
-				</div>
-			</div>
+
             <div class="row">
 				<div class="input-field col s3">
 					<input placeholder="Confirm Password" id="input_confirm_password" type="password" class="validate" name="confirm_password">
