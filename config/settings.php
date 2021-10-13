@@ -15,7 +15,7 @@ $containerBuilder->addDefinitions([
             'connection' => [
                 'driver' => 'pdo_mysql',
                 'host' => 'db',
-                'port' => 8100,
+                'port' => 3306,
                 'dbname' => 'projetcovid',
                 'user' => 'utilisateur',
                 'password' => 'utilisateur',
