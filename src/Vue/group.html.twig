@@ -10,6 +10,18 @@
 {% endblock %}
 
 {% block main %}
+
+<div class="recherche_p">
+  <form class="form-inline my-2 my-lg-0">
+    <div class="recherche-barr">
+      <input class="recherche-input" type="search" placeholder="Rechercher un groupe" aria-label="Search">
+      <a href="#" class="recherche-icone">
+        <i class="fas fa-search"></i>
+      </a>
+    </div>
+  </form>
+</div>
+
 <div class="container">
   <div class="row">
     
@@ -35,7 +47,15 @@
             </div>
              
             <div class="tab-pane" id="chat" role="tabpanel" aria-labelledby="chat-tab">  
-              <p class="card-text">Inserer le chat</p>
+              <p class="card-text">
+                <ul id="chat"></ul>
+                  <form>
+                    <textarea rows="4" cols="50" id="message"  readonly></textarea>
+                    <br />
+                    <input class="send" type="text" placeholder="Ecrivez vous message ici...">
+                    <button class="btn btn-outline-primary" type="submit">Envoyer</button>
+                  </form>
+              </p>
             </div>
              
             <div class="tab-pane" id="membres" role="tabpanel" aria-labelledby="membres-tab">
