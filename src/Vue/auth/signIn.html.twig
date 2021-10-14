@@ -12,6 +12,10 @@
 {% block main %}
 <div>
     <div class="container">
+	{% if message %}
+	<div class="alert alert-danger"> {{ message }}</div>
+	{% endif %}
+	
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">
 			<div class="card-header">
@@ -23,7 +27,7 @@
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-user"></i></span>
 						</div>
-						<input name="login" type="text" class="form-control" placeholder="Login">
+						<input name="username" type="text" class="form-control" placeholder="Login">
 						
 					</div>
 					<div class="input-group form-group">
@@ -32,9 +36,6 @@
 						</div>
 						<input name="password" type="password" class="form-control" placeholder="Mot de passe">
 					</div>
-					<!--<div class="row align-items-center remember">
-						<input type="checkbox">Remember Me
-					</div>-->
 					<div class="form-group">
 						<input type="submit" value="Login" class="btn float-right login_btn">
 					</div>

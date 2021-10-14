@@ -34,7 +34,7 @@ $app->group('/signup', function (RouteCollectorProxy $group) {
 $app->group('/group', function (RouteCollectorProxy $group) {
     $group->get('', function(Request $request, Response $response){
         //Si déja existant : envoyer sur la page de signin
-        return $this->get(Twig::class)->render($response,"group.html.twig");
+        return $this->get(Twig::class)->render($response,"group/group.html.twig");
     });
     $group->post('', SignUpUser::class);
 });
