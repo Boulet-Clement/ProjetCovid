@@ -11,7 +11,7 @@ font-family: 'Numans', sans-serif;
 
 .container{
 height: auto;
-margin-left: 0;
+margin-left: 1em;
 margin-top: 5vh;
 align-content: center;
 }
@@ -20,7 +20,39 @@ align-content: center;
 height: auto;
 margin-bottom: auto;
 width: auto;
-background-color: rgba(0,0,0,A) !important;
+background-color: #faecd4;
 }
 
+.recherche_p{
+	background-color: #eeeeee;
+	border: 1px solid #dddddd;
+	padding: 10px 10px 10px 10px;
+}
+.recherche-barr{
+	margin-bottom: auto;
+	margin-top: auto;
+	background-color: #7c828e;
+}
 
+.recherche-icone:hover{
+	color: white;
+}
+.recherche-icone{
+	height: 40px;
+	width: 40px;
+	float: right;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%;
+	color: white;
+}
+
+.send {
+	color: #000000;
+	border: 0.1rem solid #888787;
+	border-radius: 30px;
+	width: 80%;
+	font-weight: 300;
+	margin-left: 20px;	
+  }
