@@ -17,8 +17,8 @@ $containerBuilder->addDefinitions([
                 'host' => 'db',
                 'port' => 3306,
                 'dbname' => 'projetcovid',
-                'user' => 'root',
-                'password' => 'root',
+                'user' => 'utilisateur',
+                'password' => 'utilisateur',
                 ]
             ],
         'twig' => [
