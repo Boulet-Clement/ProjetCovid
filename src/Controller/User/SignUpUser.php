@@ -6,6 +6,8 @@ use Doctrine\ORM\EntityManager;
 
 use App\Model\User;
 use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Views\Twig;
+use Slim\Flash\Messages;
 
 require __DIR__ . '/../../Model/User.php';
 require __DIR__ . '/../../Repository/UserRepository.php';
@@ -13,6 +15,8 @@ require __DIR__ . '/../../Repository/UserRepository.php';
 class SignUpUser extends BaseController{
     private $em;
     private $userRepository;
+    private $twig;
+    private $message;
 
     protected function action():Response
     {   
@@ -29,22 +33,28 @@ class SignUpUser extends BaseController{
             $this->em->persist($user);
             /* Rediriger sur la page de connexion en disant bienvenue */
             $this->em->flush();
-            $_SESSION['message'] = 'Bienvenue';
+            $this->message->addMessage('flashMessages','Le compte existe déjà');
+            $environment = $this->twig->getEnvironment();
+            $environment->addGlobal('flash', $this->message);
             return $this->response
             ->withHeader('location','/signin')
             ->withStatus(302);
         }else{
-            $_SESSION['message'] = 'Le compte existe déjà';
-            return $this->response;
-            /* Rediriger sur la page de connexion en disant qu'il existe déjà */
+            $_SESSION['theme']="danger";
+            $_SESSION['message']='Le compte existe déjà';
+            return $this->response
+            ->withHeader('location','/signin')
+            ->withStatus(302);
         }
         
         
     }
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, Twig $twig, Messages $message)
     {
         $this->em = $em;
         $this->userRepository = $em->getRepository('App\Model\User');
+        $this->twig = $twig;
+        $this->message = $message;
     }
     private function is_already_existing($user)
     {

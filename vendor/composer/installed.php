@@ -325,6 +325,15 @@
             'reference' => '120b605dfeb996808c31b6477290a714d356e822',
             'dev_requirement' => false,
         ),
+        'slim/flash' => array(
+            'pretty_version' => '0.4.0',
+            'version' => '0.4.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../slim/flash',
+            'aliases' => array(),
+            'reference' => '9aaff5fded3b54f4e519ec3d4ac74d3d1f2cbbbc',
+            'dev_requirement' => false,
+        ),
         'slim/psr7' => array(
             'pretty_version' => '1.4',
             'version' => '1.4.0.0',

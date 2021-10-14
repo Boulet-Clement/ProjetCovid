@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\Setup;
 
 use Slim\Views\Twig;
+use Slim\Flash\Messages;
 
 return function (ContainerBuilder $containerBuilder){
     $containerBuilder->addDefinitions([
@@ -47,6 +48,10 @@ return function (ContainerBuilder $containerBuilder){
             $twig = Twig::create($twigSettings['paths'], $options);
 
             return $twig;
-        }
+        },
+        Messages::class => function (ContainerInterface $container) {
+            return new Messages();
+            }
+
     ]);
 };

@@ -22,9 +22,11 @@ class SignInUser extends BaseController{
             ->withHeader('location','/')
             ->withStatus(302);
         }else{
-            return $this->twig->render($this->response,"auth/signIn.html.twig",[
-                'message'=>'mauvais identifiants'
-            ]);
+            $_SESSION['theme']="danger";
+            $_SESSION['message']="Mauvais identifiant";
+            return $this->response
+            ->withHeader('location','/signin')
+            ->withStatus(302);
         }
     }
     public function __construct(EntityManager $em, Twig $twig)

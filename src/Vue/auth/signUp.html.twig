@@ -12,6 +12,12 @@
 {% block main %}
 <div>
     <div class="container">
+	{% if session.theme == "danger" %}
+		<div class="alert alert-danger">{{ session.message }}</div>
+	{% elseif session.theme =="success" %}
+		<div class="alert alert-success">{{ session.message }}</div>
+	{% endif %}
+
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">
 			<div class="card-header">

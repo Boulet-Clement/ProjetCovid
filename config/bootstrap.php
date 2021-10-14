@@ -35,5 +35,5 @@ $app = AppFactory::create();
 //$app = \DI\Bridge\Slim\Bridge::create($container);
 
 require __DIR__ . '/../config/routes.php';
-
+session_start();
 $app->run();

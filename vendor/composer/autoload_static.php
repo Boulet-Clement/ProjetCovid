@@ -8,12 +8,12 @@ class ComposerStaticInit4c71aa4ac542b3d95437392a9c0c5eb7
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
-        'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
+        'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
@@ -43,6 +43,7 @@ class ComposerStaticInit4c71aa4ac542b3d95437392a9c0c5eb7
             'Symfony\\Component\\Cache\\' => 24,
             'Slim\\Views\\' => 11,
             'Slim\\Psr7\\' => 10,
+            'Slim\\Flash\\' => 11,
             'Slim\\' => 5,
         ),
         'P' => 
@@ -89,6 +90,10 @@ class ComposerStaticInit4c71aa4ac542b3d95437392a9c0c5eb7
             'Doctrine\\Common\\' => 16,
             'DI\\Bridge\\Slim\\' => 15,
             'DI\\' => 3,
+        ),
+        'A' => 
+        array (
+            'App\\' => 4,
         ),
     );
 
@@ -156,6 +161,10 @@ class ComposerStaticInit4c71aa4ac542b3d95437392a9c0c5eb7
         'Slim\\Psr7\\' => 
         array (
             0 => __DIR__ . '/..' . '/slim/psr7/src',
+        ),
+        'Slim\\Flash\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/slim/flash/src',
         ),
         'Slim\\' => 
         array (
@@ -261,10 +270,10 @@ class ComposerStaticInit4c71aa4ac542b3d95437392a9c0c5eb7
         ),
         'Doctrine\\Common\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/reflection/lib/Doctrine/Common',
+            0 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
             1 => __DIR__ . '/..' . '/doctrine/event-manager/lib/Doctrine/Common',
             2 => __DIR__ . '/..' . '/doctrine/persistence/lib/Doctrine/Common',
-            3 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
+            3 => __DIR__ . '/..' . '/doctrine/reflection/lib/Doctrine/Common',
         ),
         'DI\\Bridge\\Slim\\' => 
         array (
@@ -274,6 +283,14 @@ class ComposerStaticInit4c71aa4ac542b3d95437392a9c0c5eb7
         array (
             0 => __DIR__ . '/..' . '/php-di/php-di/src',
         ),
+        'App\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
+        ),
+    );
+
+    public static $fallbackDirsPsr0 = array (
+        0 => __DIR__ . '/../..' . '/src',
     );
 
     public static $classMap = array (
@@ -291,6 +308,7 @@ class ComposerStaticInit4c71aa4ac542b3d95437392a9c0c5eb7
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit4c71aa4ac542b3d95437392a9c0c5eb7::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit4c71aa4ac542b3d95437392a9c0c5eb7::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr0 = ComposerStaticInit4c71aa4ac542b3d95437392a9c0c5eb7::$fallbackDirsPsr0;
             $loader->classMap = ComposerStaticInit4c71aa4ac542b3d95437392a9c0c5eb7::$classMap;
 
         }, null, ClassLoader::class);
