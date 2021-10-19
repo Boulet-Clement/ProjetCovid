@@ -2,6 +2,7 @@
 
 use App\Controller\User\SignInUser;
 use App\Controller\User\SignUpUser;
+use App\Controller\Group\CreateGroup;
 
 use Slim\Routing\RouteCollectorProxy;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -12,6 +13,8 @@ require __DIR__ . '/../src/Controller/BaseController.php';
 
 require __DIR__ . '/../src/Controller/User/SignInUser.php';
 require __DIR__ . '/../src/Controller/User/SignUpUser.php';
+
+require __DIR__ . '/../src/Controller/Group/CreateGroup.php';
 
 $app->get('/',function ($request, $response, array $args){
     return $this->get(Twig::class)->render($response,"home/index.html.twig",["session"=>$_SESSION]);
@@ -33,8 +36,16 @@ $app->group('/signup', function (RouteCollectorProxy $group) {
 
 $app->group('/group', function (RouteCollectorProxy $group) {
     $group->get('', function(Request $request, Response $response){
-        //Si déja existant : envoyer sur la page de signin
         return $this->get(Twig::class)->render($response,"group/group.html.twig",["session"=>$_SESSION]);
+    });
+    $group->post('', CreateGroup::class);
+});
+
+$app->group('/contact', function (RouteCollectorProxy $group) {
+    $group->get('', function(Request $request, Response $response){
+        return $this->get(Twig::class)->render($response,"contact/index.html.twig",["session"=>$_SESSION]);
     });
     $group->post('', SignUpUser::class);
 });
+
+$app->post('create-group', CreateGroup::class);

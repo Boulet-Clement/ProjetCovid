@@ -22,6 +22,20 @@
   </form>
 </div>
 
+  <button class="btn btn-primary" id="btn_create_group">Créer un groupe</button>
+  
+<div class="container" id="form-create-groupe" style="display:none;">
+  <form action="/group" method ="POST">
+    <div class="form-group">
+      <label for="input_groupname">Nom du groupe</label>
+      <input type="text" name="groupName" class="form-control" id="input_groupname" placeholder="Mon groupe d'amis">
+    </div>
+    <button type="submit" class="btn btn-primary">Créer</button>
+    <a class="btn btn-danger" id="btn_cancel" style="color:white;">Annuler</a>
+  </form>
+</div>
+
+
 <div class="container">
   <div class="row">
     
@@ -75,9 +89,11 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
-$('#bologna-list a').on('click', function (e) {
-  e.preventDefault()
-  $(this).tab('show')
+$('#btn_create_group').on('click', function (e) {
+  $('#form-create-groupe').show();
+})
+$('#btn_cancel').on('click', function (e) {
+  $('#form-create-groupe').hide();
 })
 </script>
 
