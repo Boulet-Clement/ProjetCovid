@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Group;
+namespace App\Model;
 use App\Model\User;
 use Doctrine\ORM\Mapping as ORM;
 

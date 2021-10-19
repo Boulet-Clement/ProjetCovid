@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace App\Messagerie;
+namespace App\Model;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
