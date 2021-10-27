@@ -23,6 +23,7 @@ class SignUpUser extends BaseController{
         $login = htmlspecialchars($parsedBody['login']);
         $password =  htmlspecialchars($parsedBody['password']);
         $user = new User(null,$login,$firstname,$lastname,$mail,$password);
+        $user = new User(null,$login,$firstname,$lastname,$mail,$password);
         if(! $this->is_already_existing($user)){
             $this->em->persist($user);
             $this->em->flush();

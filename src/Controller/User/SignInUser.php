@@ -13,16 +13,27 @@ class SignInUser extends BaseController{
         $parsedBody = $this->request->getParsedBody();
         $username = htmlspecialchars($parsedBody['username']);
         $password =  htmlspecialchars($parsedBody['password']);
-        if($this->is_login_ok($username,$password)){
-            $_SESSION['theme']="";
-            $_SESSION['message']="";
-            $_SESSION['username'] = $username;
-            return $this->response
-            ->withHeader('location','/')
-            ->withStatus(302);
+        $user = $this->userRepository->findOneBy(array('username'=> $username));
+        if($user != null){
+            if($password === $user->getPassword()){
+                $_SESSION['theme']="";
+                $_SESSION['message']="";
+                $_SESSION['username'] = $username;
+                $_SESSION['user'] = $user;
+                $_SESSION['id'] = $user->getId();
+                return $this->response
+                ->withHeader('location','/')
+                ->withStatus(302);
+            }else{
+                $_SESSION['theme']="danger";
+                $_SESSION['message']="Mauvais identifiants";
+                return $this->response
+                ->withHeader('location','/signin')
+                ->withStatus(302);
+            }
         }else{
             $_SESSION['theme']="danger";
-            $_SESSION['message']="Mauvais identifiants";
+            $_SESSION['message']="L'identifiant n'existe pas";
             return $this->response
             ->withHeader('location','/signin')
             ->withStatus(302);
@@ -32,16 +43,6 @@ class SignInUser extends BaseController{
     {
         $this->em = $em;
         $this->userRepository = $em->getRepository('App\Model\User');
-    }
-    private function is_login_ok($username,$password){
-        $is_ok = false;
-        $user = $this->userRepository->findOneBy(array('username'=> $username));
-        if($user != null){
-            if($password === $user->getPassword()){
-                $is_ok = true ;
-            }
-        }
-        return $is_ok;
     }
 
 }

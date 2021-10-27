@@ -3,15 +3,15 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Model\User;
+use JsonSerializable;
 use Doctrine\ORM\Mapping as ORM;
-
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="groups")
  */
-class Group
+class Group implements JsonSerializable
 {
     /**
      * @var int|null
@@ -21,6 +21,19 @@ class Group
      * @ORM\GeneratedValue
      */
     private $id;
+
+    /**
+     * @var string
+     * @ORM\ManyToMany(targetEntity="App\Model\User", mappedBy="groups")
+     */
+    private $users;
+
+    /**
+     * @var string
+     * @ORM\ManyToOne(targetEntity="App\Model\User")
+     * @ORM\JoinColumn(name="admin_id", referencedColumnName="id")
+     */
+    private $admin;
 
     /**
      * @var string
@@ -35,22 +48,6 @@ class Group
     private $description;
 
     /**
-     * @var string
-     * @ORM\ManyToOne(targetEntity="App\Model\User")
-     * @ORM\JoinColumn(name="admin_id", referencedColumnName="id")
-     */
-    private $admin;
-
-
-    /**
-     * @var string
-     * @ORM\ManyToMany(targetEntity="App\Model\User", mappedBy="groups")
-     */
-    private $users;
-
-
-
-    /**
      * @return int|null
      */
     public function getId(): ?int
@@ -61,7 +58,7 @@ class Group
     /**
      * @return string
      */
-    public function getName(): string
+    public function getname(): string
     {
         return $this->name;
     }
@@ -74,60 +71,89 @@ class Group
         return $this->description;
     }
 
-    /**
-     * @return string
-     */
-    public function getadmin(): string
-    {
-        return $this->admin;
+    public function addUser(User $user){
+        $this->users->add($user);
     }
-    
-    /**
-     * @return 
-     */
+
     public function getUsers(){
         return $this->users;
     }
 
+    public function getGroupAdmin()
+    {
+        return $this->admin;
+    }
+
+    public function hasUser($id): bool
+    {
+        for ($i = 0; $i < count($this->users); $i += 1){
+            if ($this->users[$i]->getId() == $id){
+                return true;
+            }
+        }
+        return false;
+
+    }
 
     /**
-     * Setter
+     * @return bool
      */
-
-    public function setName($name)
+    public function checkAdmin($id):bool
     {
-        $this->name = $name;
-    }
-
-    public function setDescription($description)
-    {
-        $this->description = $description;
-    }
-
-    public function setAdmin($admin)
-    {
-        $this->admin = $admin;
+        if($id == $this->admin->getId()){
+            return true;
+        }
+        return false;
     }
     
     /**
-     * Constructeur
+     * Set user as admin
+     */
+    public function setAdmin(User $user){
+        $this->admin = $user;
+    }
+
+    /**
+     * Set groupname
+     */
+    public function setName($name){
+        $this->name = $name;
+    }
+
+    /**
+     * Set description
+     */
+    public function setDescription($description){
+        $this->description = $description;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'users' => $this->users
+        ];
+    }
+
+
+
+    /**
      * @param int|null $id
      * @param string   $name
      * @param string   $description
-     * @param string   $admin
      */
-
-    public function __construct(
-        ?int $id,
-        string $name,
-        string $description,
-        string $admin
-    ) {
+    public function __construct(?int $id, string $name, string $description, User $admin)
+    {
         $this->id = $id;
-        $this->name = $name;
-        $this->description = $description;
+        $this->name = strtolower($name);
+        $this->description = ucfirst($description);
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
         $this->admin = $admin;
-        $this->users = new ArrayCollection();
     }
 
 }

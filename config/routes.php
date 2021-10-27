@@ -3,6 +3,8 @@
 use App\Controller\User\SignInUser;
 use App\Controller\User\SignUpUser;
 use App\Controller\Group\CreateGroup;
+use App\Controller\Group\ViewGroup;
+use App\Controller\Group\ListGroups;
 
 use Slim\Routing\RouteCollectorProxy;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -15,6 +17,8 @@ require __DIR__ . '/../src/Controller/User/SignInUser.php';
 require __DIR__ . '/../src/Controller/User/SignUpUser.php';
 
 require __DIR__ . '/../src/Controller/Group/CreateGroup.php';
+require __DIR__ . '/../src/Controller/Group/ListGroups.php';
+require __DIR__ . '/../src/Controller/Group/ViewGroup.php';
 
 $app->get('/',function ($request, $response, array $args){
     return $this->get(Twig::class)->render($response,"home/index.html.twig",["session"=>$_SESSION]);
@@ -35,11 +39,29 @@ $app->group('/signup', function (RouteCollectorProxy $group) {
 });
 
 $app->group('/group', function (RouteCollectorProxy $group) {
-    $group->get('', function(Request $request, Response $response){
-        return $this->get(Twig::class)->render($response,"group/group.html.twig",["session"=>$_SESSION]);
-    });
+    $group->get('', ListGroups::class);
     $group->post('', CreateGroup::class);
+    $group->get('/{id}', ViewGroup::class);
 });
+/*
+$app->group(
+    '/groups', function (Group $group) {
+        $group->get('/create', function (Request $request, Response $response) {
+            return $this->get(Twig::class)->render($response, "/group/create_group.twig", []);
+            });
+        $group->get('', ListGroupsAction::class);
+        $group->post('', CreateGroupAction::class);
+        $group->post('/{id}/delete', DeleteGroupAction::class);
+        $group->get('/{id}/modify', ViewModifyGroupForm::class);
+        $group->post('/{id}/modify', ModifyGroupAction::class);
+        $group->post('/{id}/users/add', AddUserGroupAction::class);
+        $group->post('/{id}/users/add_multiple', AddUsersGroupAction::class);
+        $group->post('/{id}/users/{user_id}/delete', DeleteUserGroupAction::class);
+        
+
+    }
+);
+*/
 
 $app->group('/contact', function (RouteCollectorProxy $group) {
     $group->get('', function(Request $request, Response $response){
