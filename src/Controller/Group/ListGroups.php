@@ -15,8 +15,8 @@ class ListGroups extends BaseController{
     private $groupRepository;
     protected function action():Response
     {        
-        $userID=1;
-        $groups = $this->userRepository->find($userID)->getGroups();
+        $user =  $this->userRepository->findOneBy(array('id'=> $_SESSION['id']));
+        $groups = $this->userRepository->find($user->getId())->getGroups();
         return $this->twig->render($this->response,"group/group.html.twig",[
             "session"=>$_SESSION,
             "groups"=>$groups
