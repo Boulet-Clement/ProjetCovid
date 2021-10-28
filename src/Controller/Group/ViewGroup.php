@@ -18,9 +18,16 @@ class ViewGroup extends BaseController
     {
         $groupId = (int) $this->args['id'];
         $group = $this->groupRepository->find($groupId);
+        $membres = $group->getUsers();
+        $user =  $this->userRepository->findOneBy(array('id'=> $_SESSION['id']));
+        $isAdmin = $group->checkAdmin($user->getId());
 
         if (isset($group)) {
-            return $this->twig->render($this->response, "/group/viewGroup.html.twig", ["group" => $group, "session" => $_SESSION]);
+            return $this->twig->render($this->response, "/group/viewGroup.html.twig", [
+                "group" => $group, 
+                "session" => $_SESSION,
+                "membres"=> $membres,
+                "is_admin"=> $isAdmin]);
         }else{
             return $this->response; // A changer par la suite pour être plus propre
         }

@@ -26,6 +26,11 @@
           <li class="nav-item">
             <a class="nav-link" href="#membres" id="link_membres">Membres</a>
           </li>
+          {% if is_admin == 1 %}
+          <li class="nav-item">
+            <a class="nav-link" href="#membres" id="link_membres">Ajouter un membre</a>
+          </li>
+          {% endif %}
         </ul>
       </div>
       <div class="card-body">
@@ -34,7 +39,9 @@
           <p>Voici la liste des messages</p>
         </div>
         <div id="content_membres" style="display:none;">
-          <p>Voici la liste des membres</p>
+          {% for membre in membres %}
+            <span class="btn btn-primary">{{ membre.username }}</span>
+          {% endfor %}
         </div>
       </div>
     </div>
