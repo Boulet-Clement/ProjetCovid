@@ -11,76 +11,33 @@
 
 {% block main %}
 
-<div class="recherche_p">
-  <form class="form-inline my-2 my-lg-0">
-    <div class="recherche-barr">
-      <input class="recherche-input" type="search" placeholder="Rechercher un groupe" aria-label="Search">
-      <a href="#" class="recherche-icone">
-        <i class="fas fa-search"></i>
-      </a>
-    </div>
-  </form>
-</div>
-
-  <button class="btn btn-primary" id="btn_create_group">Créer un groupe</button>
-  
-<div class="container" id="form-create-groupe" style="display:none;">
-  <form action="/group" method ="POST">
-    <div class="form-group">
-      <label for="input_groupname">Nom du groupe</label>
-      <input type="text" name="groupName" class="form-control" id="input_groupname" placeholder="Mon groupe d'amis">
-    </div>
-    <button type="submit" class="btn btn-primary">Créer</button>
-    <a class="btn btn-danger" id="btn_cancel" style="color:white;">Annuler</a>
-  </form>
-</div>
-
-
 <div class="container">
   <div class="row">
-    
-      <div class="card">
-        <div class="card-header">
-		      <h3>Nom du groupe</h3>
-          <ul class="nav nav-tabs card-header-tabs" id="bologna-list" role="tablist">
-            <li class="nav-item">
-              <a class="nav-link active" href="#description" role="tab" aria-controls="description" aria-selected="true">Description</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link"  href="#chat" role="tab" aria-controls="chat" aria-selected="false">Chat</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#membres" role="tab" aria-controls="membres" aria-selected="false">Membres</a>
-            </li>
-          </ul>
+    <div class="card">
+      <div class="card-header">
+	      <h3>{{ group.name }}</h3>
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" href="#description" id="link_description">Description</a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link"  href="#chat" id="link_chat">Chat</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#membres" id="link_membres">Membres</a>
+          </li>
+        </ul>
+      </div>
+      <div class="card-body">
+        <p id="content_description" class="card-text" >{{group.description}}</p>
+        <div id="content_chat" style="display:none;">
+          <p>Voici la liste des messages</p>
         </div>
-        <div class="card-body">
-           <div class="tab-content mt-3">
-            <div class="tab-pane active" id="description" role="tabpanel">
-              <p class="card-text">Description du groupe</p>
-            </div>
-             
-            <div class="tab-pane" id="chat" role="tabpanel" aria-labelledby="chat-tab">  
-              <p class="card-text">
-                <ul id="chat"></ul>
-                  <form>
-                    <textarea rows="4" cols="50" id="message"  readonly></textarea>
-                    <br />
-                    <input class="send" type="text" placeholder="Ecrivez vous message ici...">
-                    <button class="btn btn-outline-primary" type="submit">Envoyer</button>
-                  </form>
-              </p>
-            </div>
-             
-            <div class="tab-pane" id="membres" role="tabpanel" aria-labelledby="membres-tab">
-              <p class="card-text">Liste des membres</p>
-              <ul id="membres-liste">
-              <li>Pierre paul</li>
-              </ul>
-            </div>
-          </div>
+        <div id="content_membres" style="display:none;">
+          <p>Voici la liste des membres</p>
         </div>
       </div>
+    </div>
   </div>
 </div>
 {% endblock %}
@@ -88,13 +45,6 @@
 {% block javascripts %}
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script>
-$('#btn_create_group').on('click', function (e) {
-  $('#form-create-groupe').show();
-})
-$('#btn_cancel').on('click', function (e) {
-  $('#form-create-groupe').hide();
-})
-</script>
+<script src="/javascript/group/group.js"></script>
 
 {% endblock %}
