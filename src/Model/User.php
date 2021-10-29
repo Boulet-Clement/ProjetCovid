@@ -6,7 +6,7 @@ namespace App\Model;
 use JsonSerializable;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
-use App\Model\Group ;
+use App\Model\Group;
 use Doctrine\ORM\PersistentCollection;
 
 /**

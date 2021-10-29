@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Model;
 
 use App\Model\User;
+use App\Model\GroupMessage;
 use JsonSerializable;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -48,6 +49,11 @@ class Group implements JsonSerializable
     private $description;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Model\GroupMessage", mappedBy="groups")
+     */
+    private $messages;
+
+    /**
      * @return int|null
      */
     public function getId(): ?int
@@ -82,6 +88,14 @@ class Group implements JsonSerializable
     public function getGroupAdmin()
     {
         return $this->admin;
+    }
+
+    /**
+     * @return string
+    */
+    public function getMessages(): array
+    {
+        return $this->messages;
     }
 
     public function hasUser($id): bool
@@ -127,6 +141,10 @@ class Group implements JsonSerializable
         $this->description = $description;
     }
 
+    public function sendMessage(GroupMessage $groupMessage){
+        $this->messages->add($groupMessage);
+    }
+
     /**
      * @return array
      */
@@ -154,6 +172,7 @@ class Group implements JsonSerializable
         $this->description = ucfirst($description);
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
         $this->admin = $admin;
+        $this->messages = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 }
