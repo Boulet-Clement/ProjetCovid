@@ -2,9 +2,11 @@
 
 use App\Controller\User\SignInUser;
 use App\Controller\User\SignUpUser;
+
 use App\Controller\Group\CreateGroup;
 use App\Controller\Group\ViewGroup;
 use App\Controller\Group\ListGroups;
+use App\Controller\Group\AddMemberGroup;
 
 use Slim\Routing\RouteCollectorProxy;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -19,6 +21,7 @@ require __DIR__ . '/../src/Controller/User/SignUpUser.php';
 require __DIR__ . '/../src/Controller/Group/CreateGroup.php';
 require __DIR__ . '/../src/Controller/Group/ListGroups.php';
 require __DIR__ . '/../src/Controller/Group/ViewGroup.php';
+require __DIR__ . '/../src/Controller/Group/AddMemberGroup.php';
 
 $app->get('/',function ($request, $response, array $args){
     return $this->get(Twig::class)->render($response,"home/index.html.twig",["session"=>$_SESSION]);
@@ -42,6 +45,7 @@ $app->group('/group', function (RouteCollectorProxy $group) {
     $group->get('', ListGroups::class);
     $group->post('', CreateGroup::class);
     $group->get('/{id}', ViewGroup::class);
+    $group->post('/add-member', AddMemberGroup::class);
 });
 /*
 $app->group(

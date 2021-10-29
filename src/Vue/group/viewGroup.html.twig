@@ -12,6 +12,11 @@
 {% block main %}
 
 <div class="container">
+  {% if session.theme == "danger" %}
+		<div class="alert alert-danger">{{ session.message }}</div>
+	{% elseif session.theme =="success" %}
+		<div class="alert alert-success">{{ session.message }}</div>
+	{% endif %}
   <div class="row">
     <div class="card">
       <div class="card-header">
@@ -47,9 +52,9 @@
           <div class="container" id="form-create-groupe">
             <form action="/group/add-member" method ="POST">
               <div class="form-group">
-                <label for="input_groupname">Nom du membre</label>
-                <input type="text" name="groupName" class="form-control" id="input_groupname" placeholder="Florient">
-                <input type="hidden" name="idGroup" id="input_idgroup" value="{{ group.id }}">
+                <label for="input_username">identifiant du membre</label>
+                <input type="text" name="username" class="form-control" id="input_username" placeholder="Florient">
+                <input type="hidden" name="groupId" id="input_groupId" value="{{ group.id }}">
               </div>
               <button type="submit" class="btn btn-primary">Ajouter</button>
               <a class="btn btn-danger" id="btn_cancel" style="color:white;">Annuler</a>
