@@ -28,7 +28,7 @@
           </li>
           {% if is_admin == 1 %}
           <li class="nav-item">
-            <a class="nav-link" href="#membres" id="link_membres">Ajouter un membre</a>
+            <a class="nav-link" href="#membres" id="link_ajout">Ajouter un membre</a>
           </li>
           {% endif %}
         </ul>
@@ -42,6 +42,18 @@
           {% for membre in membres %}
             <span class="btn btn-primary">{{ membre.username }}</span>
           {% endfor %}
+        </div>
+        <div id="content_ajout" style="display:none;">
+          <div class="container" id="form-create-groupe">
+            <form action="/group/add-member" method ="POST">
+              <div class="form-group">
+                <label for="input_groupname">Nom du membre</label>
+                <input type="text" name="groupName" class="form-control" id="input_groupname" placeholder="Florient">
+                <input type="hidden" name="idGroup" id="input_idgroup" value="{{ group.id }}">
+              </div>
+              <button type="submit" class="btn btn-primary">Ajouter</button>
+              <a class="btn btn-danger" id="btn_cancel" style="color:white;">Annuler</a>
+            </form>
         </div>
       </div>
     </div>
