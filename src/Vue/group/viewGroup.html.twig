@@ -41,7 +41,9 @@
       <div class="card-body">
         <p id="content_description" class="card-text" >{{group.description}}</p>
         <div id="content_chat" style="display:none;">
-          <p>Voici la liste des messages</p>
+          {% for message in messages %}
+            <span class="btn btn-primary">{{ message.username }}</span>
+          {% endfor %}
         </div>
         <div id="content_membres" style="display:none;">
           {% for membre in membres %}

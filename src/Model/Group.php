@@ -31,6 +31,12 @@ class Group implements JsonSerializable
 
     /**
      * @var string
+     * @ORM\ManyToMany(targetEntity="App\Model\GroupMessage", mappedBy="groups")
+     */
+    private $groupMessages;
+
+    /**
+     * @var string
      * @ORM\ManyToOne(targetEntity="App\Model\User")
      * @ORM\JoinColumn(name="admin_id", referencedColumnName="id")
      */
@@ -47,11 +53,6 @@ class Group implements JsonSerializable
      * @ORM\Column(type="string")
      */
     private $description;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Model\GroupMessage", mappedBy="groups")
-     */
-    private $messages;
 
     /**
      * @return int|null
@@ -85,23 +86,34 @@ class Group implements JsonSerializable
         return $this->users;
     }
 
+    public function addGroupMessage(GroupMessage $groupMessage){
+        $this->groupMessages->add($groupMessage);
+    }
+
+    public function getGroupMessages(){
+        return $this->groupMessages;
+    }
+
     public function getGroupAdmin()
     {
         return $this->admin;
-    }
-
-    /**
-     * @return string
-    */
-    public function getMessages(): array
-    {
-        return $this->messages;
     }
 
     public function hasUser($id): bool
     {
         for ($i = 0; $i < count($this->users); $i += 1){
             if ($this->users[$i]->getId() == $id){
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    public function hasMessages($id): bool
+    {
+        for ($i = 0; $i < count($this->groupMessages); $i += 1){
+            if ($this->groupMessages[$i]->getId() == $id){
                 return true;
             }
         }
@@ -141,10 +153,6 @@ class Group implements JsonSerializable
         $this->description = $description;
     }
 
-    public function sendMessage(GroupMessage $groupMessage){
-        $this->messages->add($groupMessage);
-    }
-
     /**
      * @return array
      */
@@ -171,8 +179,8 @@ class Group implements JsonSerializable
         $this->name = strtolower($name);
         $this->description = ucfirst($description);
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->groupMessages = new \Doctrine\Common\Collections\ArrayCollection();
         $this->admin = $admin;
-        $this->messages = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 }
