@@ -14,6 +14,7 @@ interface GroupMessageRepository
     /**
      * @param  int $id
      * @return GroupMessage
+     * @throws GroupMessageNotFoundException
      */
-    public function findGroupMessageOfId(int $id): GroupMessage;
+    public function findUserOfId(int $id): GroupMessage;
 }

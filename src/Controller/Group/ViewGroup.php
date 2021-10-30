@@ -7,6 +7,8 @@ use Doctrine\ORM\EntityManager;
 use App\Model\Group;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Views\Twig;
+use DateTime;
+use App\Model\GroupMessage;
 
 
 class ViewGroup extends BaseController
@@ -19,9 +21,16 @@ class ViewGroup extends BaseController
         $groupId = (int) $this->args['id'];
         $group = $this->groupRepository->find($groupId);
         $membres = $group->getUsers();
-        $messages = $group->getGroupMessages();
+
         $user =  $this->userRepository->findOneBy(array('id'=> $_SESSION['id']));
         $isAdmin = $group->checkAdmin($user->getId());
+
+        //$message = new GroupMessage(null,"clement","oui oui");
+        //$message->addGroup($group);
+        //$this->em->persist($message);
+        //$this->em->flush();
+        $messages = $group->getGroupMessages();
+
         if (isset($group)) {
             if($messages != null){
                 return $this->twig->render($this->response, "/group/viewGroup.html.twig", [

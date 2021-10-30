@@ -26,7 +26,7 @@ class GroupMessage implements JsonSerializable
 
     /**
      * @var string
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="string")
      */
     private $username;
 
@@ -34,19 +34,7 @@ class GroupMessage implements JsonSerializable
      * @var string
      * @ORM\Column(type="string")
      */
-    private $firstName;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    private $lastName;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", unique=true)
-     */
-    private $mail;
+    private $content;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Model\Group")
@@ -55,28 +43,10 @@ class GroupMessage implements JsonSerializable
     private $groups;
 
     /**
-     * @var bool
-     * @ORM\Column(type="boolean")
-     */
-    private $contaminated;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    private $password;
-
-    /**
      * @var DateTime
      * @ORM\Column(type="date")
      */
-    private $joinDate;
-    
-    /**
-     * @ORM\OneToMany(targetEntity="App\Model\Group", mappedBy="users")
-     */
-
-    private $admins;
+    private $sendDate;
 
     /**
      * @return int|null
@@ -97,34 +67,9 @@ class GroupMessage implements JsonSerializable
     /**
      * @return string
      */
-    public function getFirstName(): string
+    public function getContent(): string
     {
-        return $this->firstName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getLastName(): string
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMail(): string
-    {
-        return $this->mail;
+        return $this->content;
     }
 
     /**
@@ -136,44 +81,20 @@ class GroupMessage implements JsonSerializable
     }
 
     /**
-     * @return bool
+     * @return date
      */
-    public function getContaminated(): ?bool
+    public function getSendDateString(): string
     {
-        return $this->contaminated;
+
+        return date_format($this->sendDate, 'd F Y');
     }
 
     /**
      * @return date
      */
-    public function getJoinDateString(): string
+    public function getSendDate(): DateTime
     {
-
-        return date_format($this->joinDate, 'd F Y');
-    }
-
-    /**
-     * @return date
-     */
-    public function getJoinDate(): DateTime
-    {
-        return $this->joinDate;
-    }
-
-    /**
-     * @return string
-    */
-    public function getAdmins(): array
-    {
-        return $this->admins;
-    }
-
-    /**
-     * @return bool
-    */
-    public function isCurrentUser(): bool
-    {
-        return $_SESSION['userId'] == $this->id;
+        return $this->sendDate;
     }
 
     /**
@@ -187,33 +108,9 @@ class GroupMessage implements JsonSerializable
     /**
      * Set property
      */
-    public function setFirstname($firstName)
+    public function setContent($content)
     {
-        $this->$firstName = $firstName;
-    }
-
-    /**
-     * Set property
-     */
-    public function setLastname($lastName)
-    {
-        $this->$lastName = $lastName;
-    }
-    
-    /**
-     * Set property
-     */
-    public function setMail($mail)
-    {
-        $this->$mail = $mail;
-    }
-
-    /**
-     * Set property
-     */
-    public function setPassword($password)
-    {
-        $this->$password = $password;
+        $this->$content = $content;
     }
     
     public function addGroup(Group $group){
@@ -224,19 +121,6 @@ class GroupMessage implements JsonSerializable
         $this->groups->removeElement($group);
     }
 
-    public function addAdmin(Group $group){
-        $this->admin->add($group);
-    }
-
-    public function isAdmin($group_id){
-        foreach ($this->admin as $group => $object){
-            if ($group_id == $object->getId()){
-                return true;
-            }
-        }
-        return false;
-    }
-
     /**
      * @return array
      */
@@ -245,47 +129,29 @@ class GroupMessage implements JsonSerializable
         return [
             'id' => $this->id,
             'username' => $this->username,
-            'firstName' => $this->firstName,
-            'lastName' => $this->lastName,
-            'password' => $this->password,
-            'mail' => $this->mail,
+            'content' => $this->content,
             'groups' => $this->groups,
-            'contaminated' => (bool)$this->contaminated,
-            'join_date' => $this->getJoinDateString()
+            'send_date' => $this->getSendDateString()
         ];
     }
-
-
-
 
     /**
      * @param int|null $id
      * @param string   $username
-     * @param string   $firstName
-     * @param string   $lastName
-     * @param string   $mail
-     * @param string   $password
-     * @param date   $joinDate
+     * @param string   $content
+     * @param date   $sendDate
      */
 
     public function __construct(
         ?int $id,
         string $username,
-        string $firstName,
-        string $lastName,
-        string $mail,
-        string $password
+        string $content
     ) {
         $this->id = $id;
         $this->username = strtolower($username);
-        $this->firstName = ucfirst($firstName);
-        $this->lastName = ucfirst($lastName);
-        $this->password = $password;
-        $this->mail = strtolower($mail);
-        $this->contaminated = false;
-        $this->joinDate = new DateTime();
+        $this->content = ucfirst($content);
+        $this->sendDate = new DateTime();
         $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->admins = new \Doctrine\Common\Collections\ArrayCollection();
 
     }
 

@@ -41,9 +41,15 @@
       <div class="card-body">
         <p id="content_description" class="card-text" >{{group.description}}</p>
         <div id="content_chat" style="display:none;">
-          {% for message in messages %}
-            <span class="btn btn-primary">{{ message.username }}</span>
-          {% endfor %}
+          <ul>
+            {% for message in messages %}
+              <li class="row">
+                <span class="col-2">{{ message.getSendDateString() }}</span>
+                <span class="col-4">{{ message.username }}</span>
+                <span class="col-6">{{ message.content }}</span>
+              </li>
+            {% endfor %}
+          </ul>      
         </div>
         <div id="content_membres" style="display:none;">
           {% for membre in membres %}
