@@ -7,6 +7,7 @@ use App\Controller\Group\CreateGroup;
 use App\Controller\Group\ViewGroup;
 use App\Controller\Group\ListGroups;
 use App\Controller\Group\AddMemberGroup;
+use App\Controller\Group\SendMessageGroup;
 
 use Slim\Routing\RouteCollectorProxy;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -22,6 +23,7 @@ require __DIR__ . '/../src/Controller/Group/CreateGroup.php';
 require __DIR__ . '/../src/Controller/Group/ListGroups.php';
 require __DIR__ . '/../src/Controller/Group/ViewGroup.php';
 require __DIR__ . '/../src/Controller/Group/AddMemberGroup.php';
+require __DIR__ . '/../src/Controller/Group/SendMessageGroup.php';
 
 $app->get('/',function ($request, $response, array $args){
     return $this->get(Twig::class)->render($response,"home/index.html.twig",["session"=>$_SESSION]);
@@ -46,6 +48,7 @@ $app->group('/group', function (RouteCollectorProxy $group) {
     $group->post('', CreateGroup::class);
     $group->get('/{id}', ViewGroup::class);
     $group->post('/add-member', AddMemberGroup::class);
+    $group->post('/send-message', SendMessageGroup::class);
 });
 /*
 $app->group(

@@ -50,6 +50,14 @@
               </li>
             {% endfor %}
           </ul>      
+
+          <form action="/group/send-message" method ="POST">
+            <div class="form-group">
+              <input type="text" name="message_content" class="form-control" id="input_message_content" placeholder="Aa">
+              <input type="hidden" name="groupId" id="input_groupId" value="{{ group.id }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Envoyer</button>
+          </form>
         </div>
         <div id="content_membres" style="display:none;">
           {% for membre in membres %}
