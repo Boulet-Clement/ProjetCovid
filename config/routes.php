@@ -43,6 +43,15 @@ $app->group('/signup', function (RouteCollectorProxy $group) {
     $group->post('', SignUpUser::class);
 });
 
+$app->get('/signout', function (Request $request, Response $response) {
+    session_destroy();
+    return $response
+        ->withHeader('Location', '/')
+        ->withStatus(302);
+  }
+);
+
+
 $app->group('/group', function (RouteCollectorProxy $group) {
     $group->get('', ListGroups::class);
     $group->post('', CreateGroup::class);

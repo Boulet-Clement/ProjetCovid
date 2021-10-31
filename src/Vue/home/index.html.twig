@@ -6,18 +6,17 @@
 <div class="jumbotron">
     <div class="container">
         <div>   
-            	{% if session.username != null %}
-		            <h1>Bonjour et bienvenue sur notre site {{ session.username }} !</h1>
-	            {% else %}
-		            <h1>Bonjour et bienvenue sur notre site !</h1>
-	            {% endif %}
-            <p>Sur celui ci vous pourrez voir les gens infectés autour de vous.</p>
+            {% if session.username != null %}
+		        <h1>Bonjour et bienvenue sur notre site {{ session.username }} !</h1>
+	        {% else %}
+	            <h1>Bonjour et bienvenue sur notre site !</h1>
+            {% endif %}
+            <small>Sur celui ci vous pourrez voir les gens infectés autour de vous.</small>
         </div>
-        
-    </div><!-- Container -->
     <input type="hidden" name="latitude" id="input_latitude" value="{{ session.user.latitude }}">
     <input type="hidden" name="longitude" id="input_longitude" value="{{ session.user.longitude }}">
-    <div id="map" style="width: 100;height:50vh;"></div>
+    <div id="map" style="width: 80vw;height:50vh;"></div>    
+    </div><!-- Container -->
 </div><!-- Jumbotron -->
 {% endblock %}
 
