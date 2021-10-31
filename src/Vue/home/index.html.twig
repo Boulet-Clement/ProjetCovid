@@ -13,13 +13,26 @@
 	            {% endif %}
             <p>Sur celui ci vous pourrez voir les gens infectés autour de vous.</p>
         </div>
+        
     </div><!-- Container -->
+    <input type="hidden" name="latitude" id="input_latitude" value="{{ session.user.latitude }}">
+    <input type="hidden" name="longitude" id="input_longitude" value="{{ session.user.longitude }}">
+    <div id="map" style="width: 100;height:50vh;"></div>
 </div><!-- Jumbotron -->
 {% endblock %}
 
 {% block javascripts %}
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="/javascript/home/position.js"></script>
+<script src="/javascript/home/map.js"></script>
+<script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEL-cn5562d5KhQsEWHmSECVi1TNEkYCk&callback=initMap&v=weekly"
+      async
+    ></script>
+
+
+
+    
+
 
 {% endblock %}

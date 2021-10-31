@@ -17,16 +17,18 @@ class SignInUser extends BaseController{
         $longitude =  $parsedBody['longitude'];
         $user = $this->userRepository->findOneBy(array('username'=> $username));
         if($user != null){
-            if($password === $user->getPassword()){
+            if($password === $user->getPassword()){                
+                $user->setLatitude($latitude);
+                $user->setLongitude($longitude);
+                $this->em->persist($user);
+                $this->em->flush();
+
                 $_SESSION['theme']="";
                 $_SESSION['message']="";
                 $_SESSION['username'] = $username;
                 $_SESSION['user'] = $user;
                 $_SESSION['id'] = $user->getId();
-                $user->setLatitude($latitude);
-                $user->setLongitude($longitude);
-                $this->em->persist($user);
-                $this->em->flush();
+                
                 return $this->response
                 ->withHeader('location','/')
                 ->withStatus(302);

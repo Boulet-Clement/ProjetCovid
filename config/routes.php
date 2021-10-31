@@ -50,25 +50,6 @@ $app->group('/group', function (RouteCollectorProxy $group) {
     $group->post('/add-member', AddMemberGroup::class);
     $group->post('/send-message', SendMessageGroup::class);
 });
-/*
-$app->group(
-    '/groups', function (Group $group) {
-        $group->get('/create', function (Request $request, Response $response) {
-            return $this->get(Twig::class)->render($response, "/group/create_group.twig", []);
-            });
-        $group->get('', ListGroupsAction::class);
-        $group->post('', CreateGroupAction::class);
-        $group->post('/{id}/delete', DeleteGroupAction::class);
-        $group->get('/{id}/modify', ViewModifyGroupForm::class);
-        $group->post('/{id}/modify', ModifyGroupAction::class);
-        $group->post('/{id}/users/add', AddUserGroupAction::class);
-        $group->post('/{id}/users/add_multiple', AddUsersGroupAction::class);
-        $group->post('/{id}/users/{user_id}/delete', DeleteUserGroupAction::class);
-        
-
-    }
-);
-*/
 
 $app->group('/contact', function (RouteCollectorProxy $group) {
     $group->get('', function(Request $request, Response $response){
