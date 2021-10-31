@@ -67,6 +67,18 @@ class User implements JsonSerializable
     private $password;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $latitude;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $longitude;
+
+    /**
      * @var DateTime
      * @ORM\Column(type="date")
      */
@@ -108,6 +120,22 @@ class User implements JsonSerializable
     public function getPassword(): string
     {
         return $this->password;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLatitude(): string
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLongitude(): string
+    {
+        return $this->longitude;
     }
 
 
@@ -213,7 +241,23 @@ class User implements JsonSerializable
      */
     public function setPassword($password)
     {
-        $this->$password = $password;
+        $this->password = $password;
+    }
+
+    /**
+     * Set property
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+    }
+
+    /**
+     * Set property
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
     }
     
     public function addGroup(Group $group){
@@ -265,6 +309,8 @@ class User implements JsonSerializable
      * @param string   $lastName
      * @param string   $mail
      * @param string   $password
+     * @param string   $latitude
+     * @param string   $longitude
      * @param date   $joinDate
      */
 
@@ -274,13 +320,17 @@ class User implements JsonSerializable
         string $firstName,
         string $lastName,
         string $mail,
-        string $password
+        string $password,
+        ?string $latitude,
+        ?string $longitude
     ) {
         $this->id = $id;
         $this->username = strtolower($username);
         $this->firstName = ucfirst($firstName);
         $this->lastName = ucfirst($lastName);
         $this->password = $password;
+        $this->latitude = $latitude;
+        $this->longitude = $longitude;
         $this->mail = strtolower($mail);
         $this->contaminated = false;
         $this->joinDate = new DateTime();

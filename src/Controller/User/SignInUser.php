@@ -13,6 +13,8 @@ class SignInUser extends BaseController{
         $parsedBody = $this->request->getParsedBody();
         $username = htmlspecialchars($parsedBody['username']);
         $password =  htmlspecialchars($parsedBody['password']);
+        $latitude =  $parsedBody['latitude'];
+        $longitude =  $parsedBody['longitude'];
         $user = $this->userRepository->findOneBy(array('username'=> $username));
         if($user != null){
             if($password === $user->getPassword()){
@@ -21,6 +23,10 @@ class SignInUser extends BaseController{
                 $_SESSION['username'] = $username;
                 $_SESSION['user'] = $user;
                 $_SESSION['id'] = $user->getId();
+                $user->setLatitude($latitude);
+                $user->setLongitude($longitude);
+                $this->em->persist($user);
+                $this->em->flush();
                 return $this->response
                 ->withHeader('location','/')
                 ->withStatus(302);

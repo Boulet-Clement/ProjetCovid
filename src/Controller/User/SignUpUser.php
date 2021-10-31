@@ -22,11 +22,15 @@ class SignUpUser extends BaseController{
         $mail = htmlspecialchars($parsedBody['mail']);
         $login = htmlspecialchars($parsedBody['login']);
         $password =  htmlspecialchars($parsedBody['password']);
-        $user = new User(null,$login,$firstname,$lastname,$mail,$password);
+        echo "test";
+        $user = new User(null,$login,$firstname,$lastname,$mail,$password,null,null);
+        echo 'deux';
         //$user = new User(null,$login,$firstname,$lastname,$mail,$password);
         if(! $this->is_already_existing($user)){
             $this->em->persist($user);
+            echo "troi";
             $this->em->flush();
+            echo "4";
             $_SESSION['theme']="success";
             $_SESSION['message']='Votre compte à bien été enregistré, veuillez vous connecter pour vérifier.';
             return $this->response
