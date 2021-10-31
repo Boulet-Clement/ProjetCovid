@@ -13,9 +13,12 @@
             {% endif %}
             <small>Sur celui ci vous pourrez voir les gens infectés autour de vous.</small>
         </div>
-    <input type="hidden" name="latitude" id="input_latitude" value="{{ session.user.latitude }}">
-    <input type="hidden" name="longitude" id="input_longitude" value="{{ session.user.longitude }}">
-    <div id="map" style="width: 80vw;height:50vh;"></div>    
+        {% if session.user %}
+            <input type="hidden" name="latitude" id="input_latitude" value="{{ session.user.latitude }}">
+            <input type="hidden" name="longitude" id="input_longitude" value="{{ session.user.longitude }}">
+            <div id="map" style="width: 80vw;height:50vh;"></div> 
+        {% endif %}
+       
     </div><!-- Container -->
 </div><!-- Jumbotron -->
 {% endblock %}
