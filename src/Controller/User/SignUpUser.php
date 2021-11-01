@@ -23,23 +23,41 @@ class SignUpUser extends BaseController{
         $login = htmlspecialchars($parsedBody['login']);
         $password =  htmlspecialchars($parsedBody['password']);
         $confirmPassword =  htmlspecialchars($parsedBody['confirm_password']);
-        $user = new User(null,$login,$firstname,$lastname,$mail,$password,null,null);
-        //$user = new User(null,$login,$firstname,$lastname,$mail,$password);
-        if(! $this->is_already_existing($user)){
-            $this->em->persist($user);
-            $this->em->flush();
-            $_SESSION['theme']="success";
-            $_SESSION['message']='Votre compte à bien été enregistré, veuillez vous connecter pour vérifier.';
-            return $this->response
-            ->withHeader('location','/signin')
-            ->withStatus(302);
+        if(!empty($firstname) && !empty($lastname) && !empty($mail) && !empty($login) && !empty($password)){
+           if($password === $confirmPassword){
+                $user = new User(null,$login,$firstname,$lastname,$mail,$password,null,null);
+                //$user = new User(null,$login,$firstname,$lastname,$mail,$password);
+                if(!$this->is_already_existing($user)){
+                    $this->em->persist($user);
+                    $this->em->flush();
+                    $_SESSION['theme']="success";
+                    $_SESSION['message']='Votre compte à bien été enregistré, veuillez vous connecter pour vérifier.';
+                    return $this->response
+                    ->withHeader('location','/signin')
+                    ->withStatus(302);
+                }else{
+                    $_SESSION['theme']="danger";
+                    $_SESSION['message']='Ce compte est déjà existant.';
+                    return $this->response
+                    ->withHeader('location','/signin')
+                    ->withStatus(302);
+                }
+            }else{
+                $_SESSION['theme']="danger";
+                $_SESSION['message']='Les deux mots de passe ne sont pas identiques.';
+                return $this->response
+                ->withHeader('location','/signup')
+                ->withStatus(302);
+            } 
         }else{
             $_SESSION['theme']="danger";
-            $_SESSION['message']='Ce compte est déjà existant.';
+            $_SESSION['message']='Veuillez remplir tous les champs';
             return $this->response
-            ->withHeader('location','/signin')
+            ->withHeader('location','/signup')
             ->withStatus(302);
-        }
+        } 
+        
+        
         
         
     }
