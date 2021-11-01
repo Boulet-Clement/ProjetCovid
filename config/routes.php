@@ -30,21 +30,42 @@ $app->get('/',function ($request, $response, array $args){
 });
 $app->group('/signin', function (RouteCollectorProxy $group) {
     $group->get('', function(Request $request, Response $response){
+                $csrf = $this->get('csrf');
+        $nameKey = $csrf->getTokenNameKey();
+        $valueKey = $csrf->getTokenValueKey();
+        $name = $request->getAttribute($nameKey);
+        $value = $request->getAttribute($valueKey);
         //Si connecté, envoyer à la page d'accueil?
-        return $this->get(Twig::class)->render($response,"auth/signIn.html.twig",["session"=>$_SESSION]);
+        return $this->get(Twig::class)->render($response,"auth/signIn.html.twig",[
+            "session"=>$_SESSION,
+            "nameKey"=>$nameKey,
+            "valueKey"=>$valueKey,
+            "name"=>$name,
+            "value"=>$value
+        ]);
     });
     $group->post('', SignInUser::class);
 });
 $app->group('/signup', function (RouteCollectorProxy $group) {
     $group->get('', function(Request $request, Response $response){
-        //Si déja existant : envoyer sur la page de signin
-        return $this->get(Twig::class)->render($response,"auth/signUp.html.twig",["session"=>$_SESSION]);
+        $csrf = $this->get('csrf');
+        $nameKey = $csrf->getTokenNameKey();
+        $valueKey = $csrf->getTokenValueKey();
+        $name = $request->getAttribute($nameKey);
+        $value = $request->getAttribute($valueKey);
+        return $this->get(Twig::class)->render($response,"auth/signUp.html.twig",[
+            "session"=>$_SESSION,
+            "nameKey"=>$nameKey,
+            "valueKey"=>$valueKey,
+            "name"=>$name,
+            "value"=>$value
+        ]);
     });
     $group->post('', SignUpUser::class);
 });
 
 $app->get('/signout', function (Request $request, Response $response) {
-    session_destroy();
+    session_unset();
     return $response
         ->withHeader('Location', '/')
         ->withStatus(302);
