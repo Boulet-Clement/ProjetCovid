@@ -247,6 +247,14 @@ class User implements JsonSerializable
     /**
      * Set property
      */
+    public function setContaminated($contaminated)
+    {
+        $this->contaminated = $contaminated;
+    }
+
+    /**
+     * Set property
+     */
     public function setLatitude($latitude)
     {
         $this->latitude = $latitude;
@@ -296,6 +304,20 @@ class User implements JsonSerializable
             'groups' => $this->groups,
             'contaminated' => (bool)$this->contaminated,
             'join_date' => $this->getJoinDateString()
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function exportAsArray()
+    {
+        return [
+            'id' => $this->id,
+            'username' => $this->username,
+            'contaminated' => (bool)$this->contaminated,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude
         ];
     }
 

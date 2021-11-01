@@ -7,7 +7,7 @@
     <div class="container">
         <div>   
             {% if session.username != null %}
-		        <h1>Bonjour et bienvenue sur notre site {{ session.username }} !</h1>
+		        <h1>Bonjour et bienvenue sur notre site <em>{{ session.username }}</em>!</h1>
 	        {% else %}
 	            <h1>Bonjour et bienvenue sur notre site !</h1>
             {% endif %}
@@ -17,7 +17,16 @@
             <input type="hidden" name="latitude" id="input_latitude" value="{{ session.user.latitude }}">
             <input type="hidden" name="longitude" id="input_longitude" value="{{ session.user.longitude }}">
             <div id="map" style="width: 80vw;height:50vh;"></div> 
+            <div>
+                <p>Sur cette carte, vous êtes en bleu. Les personnes non contaminées autour de vous sont en vert. Celles contaminées sont rouges.
+                </p>
+            </div>
         {% endif %}
+
+        <input type="hidden" name="nearUsers" id="input_nearUsers" value="{{ session.nearUsers }}">
+        {% for nearUser in session.nearUsers %}
+            <p>{{ nearUser.username }}</p>
+        {% endfor %}
        
     </div><!-- Container -->
 </div><!-- Jumbotron -->
