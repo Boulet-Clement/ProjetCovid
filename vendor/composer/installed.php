@@ -325,6 +325,15 @@
             'reference' => '120b605dfeb996808c31b6477290a714d356e822',
             'dev_requirement' => false,
         ),
+        'slim/csrf' => array(
+            'pretty_version' => '1.1.0',
+            'version' => '1.1.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../slim/csrf',
+            'aliases' => array(),
+            'reference' => 'fd03c9ed0aaf62c85bbb775aae2126a69e8a5f72',
+            'dev_requirement' => false,
+        ),
         'slim/flash' => array(
             'pretty_version' => '0.4.0',
             'version' => '0.4.0.0',

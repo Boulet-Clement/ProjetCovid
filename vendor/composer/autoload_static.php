@@ -44,6 +44,7 @@ class ComposerStaticInit4c71aa4ac542b3d95437392a9c0c5eb7
             'Slim\\Views\\' => 11,
             'Slim\\Psr7\\' => 10,
             'Slim\\Flash\\' => 11,
+            'Slim\\Csrf\\' => 10,
             'Slim\\' => 5,
         ),
         'P' => 
@@ -165,6 +166,10 @@ class ComposerStaticInit4c71aa4ac542b3d95437392a9c0c5eb7
         'Slim\\Flash\\' => 
         array (
             0 => __DIR__ . '/..' . '/slim/flash/src',
+        ),
+        'Slim\\Csrf\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/slim/csrf/src',
         ),
         'Slim\\' => 
         array (
