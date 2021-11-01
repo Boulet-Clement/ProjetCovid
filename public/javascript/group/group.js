@@ -40,3 +40,7 @@ $('#link_ajout').on('click', function (e) {
     $('#link_description').removeClass("active")
     $('#link_chat').removeClass("active")
 })
+
+$('#btn_cancel').on('click', function (e) {
+    $('#input_username').val("");
+})
