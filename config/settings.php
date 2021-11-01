@@ -14,10 +14,10 @@ $containerBuilder->addDefinitions([
             'metadata_dirs' => [__DIR__.'/../src/Model/'],
             'connection' => [
                 'driver' => 'pdo_mysql',
-                'host' => 'localhost',
+                'host' => 'db',
                 'port' => 3306,
-                'dbname' => 'projetcovid',
-                'user' => 'root',
+                'dbname' => 'utilisateur',
+                'user' => 'utilisateur',
                 'password' => '',
                 ]
             ],
