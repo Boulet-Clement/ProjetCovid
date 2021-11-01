@@ -1,6 +1,6 @@
 <?php
 //https://stackoverflow.com/questions/59639893/how-to-use-doctrine-with-slim-framework-4
-use Slim\Csrf\Guard;
+
 use Slim\Factory\AppFactory;
 use DI\Container;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -33,16 +33,6 @@ $container = $containerBuilder->build();
 // Instantiate the app
 AppFactory::setContainer($container);
 $app = AppFactory::create();
-$responseFactory = $app->getResponseFactory();
-
-// Register Middleware On Container
-$container->set('csrf', function () use ($responseFactory) {
-    return new Guard($responseFactory);
-});
-
-// Register Middleware To Be Executed On All Routes
-$app->add('csrf');
-
 
 //$app = \DI\Bridge\Slim\Bridge::create($container);
 

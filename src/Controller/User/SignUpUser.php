@@ -7,8 +7,6 @@ use Doctrine\ORM\EntityManager;
 use App\Model\User;
 use Psr\Http\Message\ResponseInterface as Response;
 
-require __DIR__ . '/../../Repository/UserRepository.php';
-
 class SignUpUser extends BaseController{
     private $em;
     private $userRepository;
