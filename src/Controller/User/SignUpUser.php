@@ -21,11 +21,13 @@ class SignUpUser extends BaseController{
         $lastname = htmlspecialchars($parsedBody['lastname']);
         $mail = htmlspecialchars($parsedBody['mail']);
         $login = htmlspecialchars($parsedBody['login']);
+
         $password =  htmlspecialchars($parsedBody['password']);
         $confirmPassword =  htmlspecialchars($parsedBody['confirm_password']);
         if(!empty($firstname) && !empty($lastname) && !empty($mail) && !empty($login) && !empty($password)){
            if($password === $confirmPassword){
-                $user = new User(null,$login,$firstname,$lastname,$mail,$password,null,null);
+                $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+                $user = new User(null,$login,$firstname,$lastname,$mail,$hashedPassword,null,null);
                 //$user = new User(null,$login,$firstname,$lastname,$mail,$password);
                 if(!$this->is_already_existing($user)){
                     $this->em->persist($user);

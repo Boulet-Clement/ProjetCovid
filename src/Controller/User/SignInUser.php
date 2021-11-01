@@ -17,7 +17,7 @@ class SignInUser extends BaseController{
         $longitude =  $parsedBody['longitude'];
         $user = $this->userRepository->findOneBy(array('username'=> $username));
         if($user != null){
-            if($password === $user->getPassword()){                
+            if(password_verify($password,$user->getPassword())){                
                 $user->setLatitude($latitude);
                 $user->setLongitude($longitude);
                 $this->em->persist($user);
