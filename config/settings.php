@@ -16,9 +16,9 @@ $containerBuilder->addDefinitions([
                 'driver' => 'pdo_mysql',
                 'host' => 'db',
                 'port' => 3306,
-                'dbname' => 'utilisateur',
+                'dbname' => 'projetcovid',
                 'user' => 'utilisateur',
-                'password' => '',
+                'password' => 'utilisateur',
                 ]
             ],
         'twig' => [
